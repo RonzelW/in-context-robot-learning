@@ -85,6 +85,36 @@ const demoTasks = [
     family: "Self history",
     title: "Find the plate and place the lemon",
     prompt: "Explore the scene, locate the pink plate, and place the lemon onto it.",
+    historySteps: [
+      {
+        title: "Explore and localize",
+        text: "The top and wrist views reveal the lemon, but not the pink plate. Small 4–8 cm arm motions create parallax; <code>locate_point</code> matches stable features on the lemon—its dark spot and tip—to triangulate its position instead of treating pixels as coordinates."
+      },
+      {
+        title: "Identify the occluder",
+        text: "The top view reveals the near corner of the cloth. The same parallax procedure localizes that corner in metric coordinates."
+      },
+      {
+        title: "Uncover the plate",
+        text: "The fingers approach the cloth corner from above, descend for inspection, and then close. A 3 cm lift confirms the cloth moves with the gripper before it is pulled outward in stages until the plate appears, then released."
+      },
+      {
+        title: "Relocalize the lemon",
+        text: "Because moving the cloth may also move the lemon, its position is triangulated again and the previous coordinates are discarded."
+      },
+      {
+        title: "Grasp and verify",
+        text: "The gripper descends to the lemon’s side, closes, and lifts 3 cm. A stable lemon-to-finger relationship in the wrist view, while the background moves, confirms the grasp."
+      },
+      {
+        title: "Place on the plate",
+        text: "The plate rim and center are triangulated. The arm routes around the right side, descends in two stages above the center, and opens the gripper to release the lemon."
+      },
+      {
+        title: "Retreat and validate",
+        text: "With the gripper open, the arm retreats 2–3 cm horizontally and lifts. Visible clearance from both fingers and support from the plate confirm completion before <code>done</code> is called."
+      }
+    ],
     configs: [
       { label: "Self history", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "35.0", time: "8.1 min", src: "assets/videos/lemon-search.mp4", trial: "Success", view: "Head view" }
     ]
@@ -259,8 +289,9 @@ function renderContextFamilyGroup(tasks, startIndex) {
   const family = tasks[0].family;
   const details = contextFamilyDetails[family];
   const isSingleTask = tasks.length === 1;
+  const historySteps = isSingleTask ? tasks[0].historySteps : null;
   const group = document.createElement("article");
-  group.className = "demo-rollout-group context-family-group";
+  group.className = `demo-rollout-group context-family-group${historySteps ? " history-enriched-group" : ""}`;
   group.dataset.family = family;
   group.dataset.clips = String(tasks.length);
 
@@ -291,6 +322,22 @@ function renderContextFamilyGroup(tasks, startIndex) {
       </figure>`;
   }).join("");
 
+  const historySummary = historySteps
+    ? `<aside class="history-summary" aria-labelledby="lemon-history-title">
+        <div class="history-summary-heading">
+          <p>Run summary</p>
+          <h4 id="lemon-history-title">Self-interaction history</h4>
+        </div>
+        <ol>
+          ${historySteps.map((step, index) => `
+            <li>
+              <span>${String(index + 1).padStart(2, "0")}</span>
+              <p><strong>${step.title}</strong>${step.text}</p>
+            </li>`).join("")}
+        </ol>
+      </aside>`
+    : "";
+
   group.innerHTML = `
     <header class="rollout-group-head">
       <div class="rollout-group-title">
@@ -300,10 +347,13 @@ function renderContextFamilyGroup(tasks, startIndex) {
       </div>
       <span class="clip-count">${tasks.length} ${tasks.length === 1 ? "clip" : "clips"}</span>
     </header>
-    <div class="rollout-rail-wrap">
-      <button class="rollout-nav previous" type="button" aria-label="Show previous clips"><span aria-hidden="true">&#8249;</span></button>
-      <div class="rollout-rail" aria-label="${family} robot rollouts">${cards}</div>
-      <button class="rollout-nav next" type="button" aria-label="Show more clips"><span aria-hidden="true">&#8250;</span></button>
+    <div class="${historySteps ? "history-enriched-layout" : ""}">
+      <div class="rollout-rail-wrap">
+        <button class="rollout-nav previous" type="button" aria-label="Show previous clips"><span aria-hidden="true">&#8249;</span></button>
+        <div class="rollout-rail" aria-label="${family} robot rollouts">${cards}</div>
+        <button class="rollout-nav next" type="button" aria-label="Show more clips"><span aria-hidden="true">&#8250;</span></button>
+      </div>
+      ${historySummary}
     </div>`;
 
   group.querySelectorAll("[data-context-task]").forEach((card, taskOffset) => {
