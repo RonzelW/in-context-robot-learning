@@ -244,8 +244,8 @@
                 </div>
                 <p>
                   Both agents receive the same red-towel instruction and the same eight frames
-                  extracted from the human demonstration. Compare one GPT-6 run with two Claude
-                  Fable 5.1 evaluation batches from the head camera.
+                  extracted from the human demonstration. Compare one GPT-6 Astra run with two
+                  Claude Fable 5.1 evaluation batches from the head camera.
                 </p>
               </div>
               <div class="comparison-context">
@@ -288,7 +288,7 @@
               </div>
               <p class="comparison-note">
                 This is a qualitative, matched-condition comparison of individual runs, not an
-                aggregate model ranking. Both Claude failures were triggered by arm tracking errors.
+                aggregate model ranking. Both Claude Fable 5.1 failures were triggered by arm tracking errors.
               </p>
             </section>
 
@@ -296,15 +296,15 @@
               <div class="comparison-heading">
                 <div>
                   <p class="section-kicker">Text-only baseline comparison</p>
-                  <h3 id="kimi-comparison-title">Same task and context, GPT-6 vs. Kimi K3</h3>
+                  <h3 id="kimi-comparison-title">Same task and context, GPT-6 Astra vs. Kimi K3</h3>
                 </div>
                 <p>
                   Compare head-camera recordings under the same text-only, no-demonstration
-                  condition. Switch tasks below; repeated Kimi runs for the same task share one
-                  matched GPT-6 reference instead of duplicating the video.
+                  condition. Switch tasks below; repeated Kimi K3 runs for the same task share one
+                  matched GPT-6 Astra reference instead of duplicating the video.
                 </p>
               </div>
-              <div class="comparison-tabs comparison-task-tabs" role="tablist" aria-label="Kimi comparison tasks">
+              <div class="comparison-tabs comparison-task-tabs" role="tablist" aria-label="Kimi K3 comparison tasks">
                 <button type="button" role="tab" aria-selected="true" data-kimi-task="remove">Remove fruit</button>
                 <button type="button" role="tab" aria-selected="false" data-kimi-task="place">Place fruit</button>
                 <button type="button" role="tab" aria-selected="false" data-kimi-task="raise">Raise both arms</button>
@@ -315,8 +315,8 @@
                 <span>View</span><b>Head camera</b>
               </div>
               <div class="comparison-subcontrol">
-                <span>Kimi run</span>
-                <div class="comparison-tabs" id="kimi-run-tabs" role="tablist" aria-label="Kimi runs for selected task"></div>
+                <span>Kimi K3 run</span>
+                <div class="comparison-tabs" id="kimi-run-tabs" role="tablist" aria-label="Kimi K3 runs for selected task"></div>
               </div>
               <div class="comparison-grid">
                 <article class="comparison-card">
@@ -334,7 +334,7 @@
                   </dl>
                 </article>
                 <article class="comparison-card kimi-comparison-card">
-                  <header><span>Kimi K3 1M</span><strong id="kimi-comparison-status"></strong></header>
+                  <header><span>Kimi K3</span><strong id="kimi-comparison-status"></strong></header>
                   <div class="comparison-stage">
                     <video id="kimi-comparison-video" controls muted playsinline preload="metadata"></video>
                     <div class="video-overlay"><span>20&times; robot run</span><span>Head view</span></div>
@@ -440,6 +440,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260915-clean-gallery"></script>
+    <script src="script.js?v=20260915-model-names"></script>
   </body>
 </html>
