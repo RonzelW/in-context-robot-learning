@@ -212,6 +212,7 @@ td:nth-child(n+3) { font-family: ui-monospace, monospace; }
 .rollout-media video, .rollout-media img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: contain; }
 .rollout-media video { background: #11151b; }
 .goal-image-media { display: grid; place-items: center; background: #f3f3f1; }
+.goal-image-media img { object-fit: cover; object-position: center; }
 .rollout-media.video-load-failed::after { position: absolute; inset: auto 12px 12px; content: "Video could not be loaded."; padding: 7px 9px; border-radius: 4px; background: rgba(255, 241, 241, .95); color: #9b2c2c; font-size: 10px; }
 .rollout-card figcaption { margin: 13px 2px 0; }
 .rollout-caption-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
