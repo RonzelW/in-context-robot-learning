@@ -112,6 +112,26 @@ h1 span { display: block; white-space: nowrap; }
 .research-question span { color: var(--blue); font: 700 10px ui-monospace, monospace; letter-spacing: .13em; text-transform: uppercase; }
 .research-question p { max-width: 730px; margin: 10px 0 0; font-size: clamp(20px, 3vw, 28px); font-weight: 600; line-height: 1.25; letter-spacing: -.035em; }
 
+/* Keep long-form copy visually calm and aligned like a typeset paper page. */
+.abstract-grid p,
+.research-question p,
+.section-intro,
+.figure-caption,
+.method-figure figcaption,
+.rollout-group-title > p:last-child,
+.comparison-heading > p,
+.comparison-note,
+.comparison-callout,
+.configured-heading > p,
+.demo-source-note,
+.finding-list p,
+.discussion-copy p {
+  text-align: justify;
+  text-align-last: left;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
 .context-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 45px; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 24px 58px -50px rgba(17, 24, 39, .7); }
 .context-card { --accent: var(--blue); position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 330px; padding: 23px 21px 20px; border-right: 1px solid var(--line); background: #fff; transition: background 220ms ease; }
 .context-card:last-child { border-right: 0; }
