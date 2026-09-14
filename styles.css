@@ -66,9 +66,7 @@ img { display: block; max-width: 100%; }
 .header-paper { justify-self: end; font: 700 11px ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
 
 .hero { padding: 112px 0 70px; text-align: center; }
-.eyebrow, .section-kicker { color: var(--muted); font: 700 10px ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; }
-.eyebrow { display: flex; justify-content: center; align-items: center; gap: 9px; }
-.eyebrow span { width: 22px; height: 1px; background: var(--blue); }
+.section-kicker { color: var(--muted); font: 700 10px ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; }
 h1 { max-width: 1000px; margin: 24px auto 18px; font-size: clamp(46px, 7vw, 92px); font-weight: 660; line-height: .98; letter-spacing: -.065em; }
 .authors { margin: 0; font-size: 16px; font-weight: 650; }
 .hero-lead { max-width: 750px; margin: 30px auto 0; color: #515762; font-size: clamp(17px, 2vw, 21px); line-height: 1.55; letter-spacing: -.018em; }
