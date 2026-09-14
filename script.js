@@ -391,44 +391,6 @@ configuredTasks.forEach((task) => {
   configuredGrid.appendChild(card);
 });
 
-const claudeComparisonRuns = {
-  paper: {
-    decisions: "35",
-    time: "795.5 s",
-    src: "assets/videos/claude-towel-paper-head.mp4"
-  },
-  fixed: {
-    decisions: "3",
-    time: "76.3 s",
-    src: "assets/videos/claude-towel-fixed-head.mp4"
-  }
-};
-
-const comparisonVideo = document.querySelector("#claude-comparison-video");
-const comparisonError = document.querySelector("#claude-comparison-error");
-const comparisonButtons = [...document.querySelectorAll("[data-claude-batch]")];
-
-function selectClaudeComparison(batchKey) {
-  const run = claudeComparisonRuns[batchKey];
-  const wasPlaying = !comparisonVideo.paused;
-  comparisonVideo.pause();
-  comparisonVideo.src = `${run.src}?v=20260914-compare`;
-  comparisonVideo.load();
-  if (wasPlaying) comparisonVideo.play().catch(() => {});
-  document.querySelector('[data-compare-field="decisions"]').textContent = run.decisions;
-  document.querySelector('[data-compare-field="time"]').textContent = run.time;
-  comparisonButtons.forEach((button) => {
-    button.setAttribute("aria-selected", String(button.dataset.claudeBatch === batchKey));
-  });
-}
-
-comparisonButtons.forEach((button) => {
-  button.addEventListener("click", () => selectClaudeComparison(button.dataset.claudeBatch));
-});
-comparisonVideo.addEventListener("error", () => { comparisonError.hidden = false; });
-comparisonVideo.addEventListener("loadeddata", () => { comparisonError.hidden = true; });
-selectClaudeComparison("paper");
-
 const kimiComparisonTasks = {
   remove: {
     task: "Remove fruit from the plate",

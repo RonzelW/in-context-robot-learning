@@ -215,10 +215,6 @@
                 <span>Task</span><b>Pick up the red towel with the right hand</b>
                 <span>Condition</span><b>Human video · 8 frames</b>
               </div>
-              <div class="comparison-tabs" role="tablist" aria-label="Claude Fable 5.1 runs">
-                <button type="button" role="tab" aria-selected="true" data-claude-batch="paper">Run 1</button>
-                <button type="button" role="tab" aria-selected="false" data-claude-batch="fixed">Run 2</button>
-              </div>
               <div class="comparison-grid">
                 <article class="comparison-card">
                   <header><span>GPT-6 Astra</span><strong class="result-success">Success</strong></header>
@@ -234,13 +230,12 @@
                 <article class="comparison-card claude-comparison-card">
                   <header><span>Claude Fable 5.1</span><strong class="result-failure">Failed</strong></header>
                   <div class="comparison-stage">
-                    <video id="claude-comparison-video" controls muted playsinline preload="metadata" data-playback="20× robot run"></video>
+                    <video controls muted playsinline preload="metadata" data-playback="20× robot run" src="assets/videos/claude-towel-paper-head.mp4?v=20260915-single-claude-run"></video>
                     <div class="video-overlay"><span>20&times; robot run</span><span>Head view</span></div>
-                    <p class="video-error" id="claude-comparison-error" hidden>Video could not be loaded.</p>
                   </div>
-                  <dl aria-live="polite">
-                    <div><dt>Decisions</dt><dd data-compare-field="decisions"></dd></div>
-                    <div><dt>Elapsed</dt><dd data-compare-field="time"></dd></div>
+                  <dl>
+                    <div><dt>Decisions</dt><dd>35</dd></div>
+                    <div><dt>Elapsed</dt><dd>795.5 s</dd></div>
                   </dl>
                 </article>
               </div>
@@ -417,6 +412,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260915-compact-comparisons"></script>
+    <script src="script.js?v=20260915-single-claude-run"></script>
   </body>
 </html>
