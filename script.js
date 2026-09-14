@@ -85,6 +85,7 @@ const demoTasks = [
     family: "Self history",
     title: "Find the plate and place the lemon",
     prompt: "Explore the scene, locate the pink plate, and place the lemon onto it.",
+    historyTitle: "Self-interaction history",
     historySteps: [
       {
         title: "Explore and localize",
@@ -131,6 +132,37 @@ const demoTasks = [
     family: "Human interaction",
     title: "Play tic-tac-toe",
     prompt: "Track the live board and human moves, obey turn-taking, and choose a legal winning or blocking move.",
+    historyTitle: "Online interaction context",
+    historySteps: [
+      {
+        title: "Open by taking the center",
+        text: "With Green moving first, the top and wrist views confirm an empty board and a clear workspace. A 3 cm wrist lift creates parallax, and <code>locate_point</code> triangulates the first green piece. After a joint-limit detour and a failed grasp that shifts the piece about 16 mm, the robot relocalizes, regrips, verifies a 3 cm lift, routes around the center post, and releases in the center cell."
+      },
+      {
+        title: "Wait for Blue’s first move",
+        text: "Both arms remain still while the board is observed repeatedly. A blue piece appears in the lower-left cell, but the robot waits until the human hand has fully withdrawn before starting Green’s turn."
+      },
+      {
+        title: "Take the upper-right corner",
+        text: "The upper-right cell creates two diagonal threats. An initial empty grasp prompts fresh parallax localization, revealing a 29 mm offset. During transport, the shifted board invalidates the old grid coordinates, so the right grid line is remapped. A low approach avoids another joint limit; the piece slips during release but is verified inside the intended cell."
+      },
+      {
+        title: "Wait for Blue’s second move",
+        text: "Five observation cycles show no new piece, and waiting is not mistaken for a terminal state. When a human begins placing Blue in the middle-left cell, the robot stays still until the hand leaves and then confirms the move."
+      },
+      {
+        title: "Block the left column",
+        text: "Blue now occupies the lower-left and middle-left cells, making the upper-left cell an immediate defensive priority. The third green piece is localized again at the center of its upward-facing diamond, grasped, carried to the board, and released in the upper-left cell. A retreat view confirms that the threat is blocked."
+      },
+      {
+        title: "Wait for Blue’s third move",
+        text: "The robot holds position until Blue is detected and confirmed in the upper-middle cell."
+      },
+      {
+        title: "Win in the lower-right corner",
+        text: "The upper-left–center–lower-right diagonal is one move from completion. Insufficient parallax triggers a wider baseline; finger occlusion prompts a switch from the piece center to a visible top corner, followed by a close-range refinement. The piece is grasped, routed along the front, placed in the inferred lower-right center, and verified as completing the diagonal before <code>done</code> is called."
+      }
+    ],
     configs: [
       { label: "Live interaction", model: "GPT-6 Astra", context: "Online interaction", success: "3 / 3", decisions: "69.7", time: "13.6 min", src: "assets/videos/tic-tac-toe.mp4", trial: "Success", view: "Head view" }
     ]
@@ -290,6 +322,8 @@ function renderContextFamilyGroup(tasks, startIndex) {
   const details = contextFamilyDetails[family];
   const isSingleTask = tasks.length === 1;
   const historySteps = isSingleTask ? tasks[0].historySteps : null;
+  const historyTitle = isSingleTask ? tasks[0].historyTitle : null;
+  const historyId = `context-summary-${startIndex + 1}`;
   const group = document.createElement("article");
   group.className = `demo-rollout-group context-family-group${historySteps ? " history-enriched-group" : ""}`;
   group.dataset.family = family;
@@ -323,10 +357,10 @@ function renderContextFamilyGroup(tasks, startIndex) {
   }).join("");
 
   const historySummary = historySteps
-    ? `<aside class="history-summary" aria-labelledby="lemon-history-title">
+    ? `<aside class="history-summary" aria-labelledby="${historyId}">
         <div class="history-summary-heading">
           <p>Run summary</p>
-          <h4 id="lemon-history-title">Self-interaction history</h4>
+          <h4 id="${historyId}">${historyTitle || "Interaction history"}</h4>
         </div>
         <ol>
           ${historySteps.map((step, index) => `
