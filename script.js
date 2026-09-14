@@ -41,7 +41,7 @@ const demoTasks = [
       src: "assets/videos/towel-reference.mp4?v=20260914-human-source",
       poster: "assets/images/towel-human-poster.jpg",
       label: "Original human video",
-      duration: "Real time · 23.8 s"
+      playback: "Real time"
     },
     configs: [
       { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "2 / 3", decisions: "76.7", time: "18.9 min", src: "assets/videos/towel-with-demo.mp4", poster: "assets/images/towel-with-human-poster.jpg", trial: "Success", view: "Head view", usesReference: true },
@@ -56,7 +56,7 @@ const demoTasks = [
       src: "assets/videos/glue-reference.mp4?v=20260914-human-source",
       poster: "assets/images/glue-human-poster.jpg",
       label: "Original human video",
-      duration: "Real time · 12.0 s"
+      playback: "Real time"
     },
     configs: [
       { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "3 / 3", decisions: "65.7", time: "16.9 min", src: "assets/videos/glue-with-demo.mp4", poster: "assets/images/glue-with-human-poster.jpg", trial: "Success", view: "Head view", usesReference: true },
@@ -159,7 +159,7 @@ function renderHumanVideoTask(task, taskIndex) {
   const resultClips = task.configs.map((config) => `
     <figure class="rollout-card">
       <div class="rollout-media">
-        <video controls muted playsinline preload="metadata" poster="${config.poster}" src="${config.src}?v=20260914-head"></video>
+        <video controls muted playsinline preload="metadata" data-playback="${config.speed || "20× robot run"}" poster="${config.poster}" src="${config.src}?v=20260914-head"></video>
         <div class="video-overlay"><span>${config.speed || "20× robot run"}</span><span>${config.view}</span></div>
       </div>
       <figcaption>
@@ -183,8 +183,8 @@ function renderHumanVideoTask(task, taskIndex) {
       <div class="rollout-rail" aria-label="${task.title}: demonstration and conditioning comparison">
         <figure class="rollout-card">
           <div class="rollout-media">
-            <video controls muted playsinline preload="metadata" poster="${task.reference.poster}" src="${task.reference.src}"></video>
-            <div class="video-overlay"><span>${task.reference.duration}</span><span>First-person view</span></div>
+            <video controls muted playsinline preload="metadata" data-playback="${task.reference.playback}" poster="${task.reference.poster}" src="${task.reference.src}"></video>
+            <div class="video-overlay"><span>${task.reference.playback}</span><span>First-person view</span></div>
           </div>
           <figcaption>
             <div class="rollout-caption-head"><h4>Human demonstration</h4><span class="rollout-input">Conditioning input</span></div>
@@ -233,7 +233,7 @@ function renderGoalImageTask(task, taskIndex) {
         </figure>
         <figure class="rollout-card">
           <div class="rollout-media">
-            <video controls muted playsinline preload="metadata" poster="${config.poster}" src="${config.src}?v=20260914-goal-image"></video>
+            <video controls muted playsinline preload="metadata" data-playback="${config.speed || "20× robot run"}" poster="${config.poster}" src="${config.src}?v=20260914-goal-image"></video>
             <div class="video-overlay"><span>${config.speed || "20× robot run"}</span><span>${config.view}</span></div>
           </div>
           <figcaption>
@@ -323,6 +323,7 @@ function renderContextFamilyGroup(tasks, startIndex) {
       const config = task.configs[index];
       const wasPlaying = !player.paused;
       player.pause();
+      player.dataset.playback = config.speed || "20× robot run";
       player.src = `${config.src}?v=20260915-clean-gallery`;
       player.load();
       if (wasPlaying) player.play().catch(() => {});
@@ -586,6 +587,28 @@ kimiVideo.addEventListener("error", () => { kimiVideoError.hidden = false; });
 kimiVideo.addEventListener("loadeddata", () => { kimiVideoError.hidden = true; });
 selectKimiTask("remove");
 
+function formatClipDuration(seconds) {
+  return `${seconds.toFixed(1)} s`;
+}
+
+function setupDurationBadge(video) {
+  const stage = video.closest(".rollout-media, .comparison-stage");
+  const badge = stage?.querySelector(".video-overlay span:first-child");
+  if (!badge) return;
+
+  function updateBadge() {
+    const playback = (video.dataset.playback || "Real time").replace(/\s+robot run$/i, "");
+    const duration = Number.isFinite(video.duration) && video.duration > 0
+      ? ` · ${formatClipDuration(video.duration)}`
+      : "";
+    badge.textContent = `${playback}${duration}`;
+  }
+
+  video.addEventListener("loadedmetadata", updateBadge);
+  video.addEventListener("durationchange", updateBadge);
+  updateBadge();
+}
+
 const autoplayObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entryItem) => {
@@ -602,6 +625,7 @@ const autoplayObserver = new IntersectionObserver(
 );
 
 document.querySelectorAll("video").forEach((video) => {
+  setupDurationBadge(video);
   video.muted = true;
   video.loop = true;
   autoplayObserver.observe(video);
