@@ -9,7 +9,7 @@
     />
     <meta name="theme-color" content="#f7f8fa" />
     <title>In-Context Robot Learning with General Agents</title>
-    <link rel="stylesheet" href="styles.css?v=20260914-number-type" />
+    <link rel="stylesheet" href="styles.css?v=20260914-context-stack" />
   </head>
   <body>
     <div class="entry" id="entry" aria-hidden="true">
@@ -139,34 +139,34 @@
             </p>
             <div class="context-grid">
               <article class="context-card blue">
-                <span class="card-number">01</span>
-                <p class="card-label">Procedure</p>
+                <header><p class="card-label">Procedure</p><span class="card-number">01</span></header>
                 <h3>Human video</h3>
                 <p>Ordered visual keyframes specify how a person carries out a task, without expert robot actions.</p>
+                <ul><li>Procedural order</li><li>No robot actions</li></ul>
               </article>
               <article class="context-card violet">
-                <span class="card-number">02</span>
-                <p class="card-label">Fine contact</p>
+                <header><p class="card-label">Fine contact</p><span class="card-number">02</span></header>
                 <h3>Robot demonstration</h3>
                 <p>Aligned visual evidence and optional action references support contact-rich manipulation.</p>
+                <ul><li>Embodied motion</li><li>Optional actions</li></ul>
               </article>
               <article class="context-card green">
-                <span class="card-number">03</span>
-                <p class="card-label">Goal state</p>
+                <header><p class="card-label">Goal state</p><span class="card-number">03</span></header>
                 <h3>Target image</h3>
                 <p>A reference image gives the final arrangement and spatial relations without prescribing a sequence.</p>
+                <ul><li>Desired end state</li><li>Sequence-free</li></ul>
               </article>
               <article class="context-card orange">
-                <span class="card-number">04</span>
-                <p class="card-label">Memory</p>
+                <header><p class="card-label">Memory</p><span class="card-number">04</span></header>
                 <h3>Self-interaction history</h3>
                 <p>Earlier observations, actions, failures, and outcomes remain available for exploration and recovery.</p>
+                <ul><li>Closed-loop memory</li><li>Failure recovery</li></ul>
               </article>
               <article class="context-card pink">
-                <span class="card-number">05</span>
-                <p class="card-label">Coordination</p>
+                <header><p class="card-label">Coordination</p><span class="card-number">05</span></header>
                 <h3>Human interaction</h3>
                 <p>Pointing, turn history, and live feedback can change target selection and action timing online.</p>
+                <ul><li>Online cues</li><li>Turn-aware</li></ul>
               </article>
             </div>
           </section>
