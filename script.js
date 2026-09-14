@@ -67,7 +67,7 @@ const demoTasks = [
     family: "Goal image",
     title: "Arrange blocks into a T",
     prompt: "Match the target image's T shape, including block colors, relative positions, and spacing.",
-    targetImage: "assets/images/5cubes-in-T-shape.jpg",
+    targetImage: "assets/images/5cubes-in-T-shape.jpg?v=20260915-latest-target",
     configs: [
       { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "59.3", time: "13.3 min", src: "assets/videos/blocks-t.mp4", poster: "assets/images/blocks-t-run-poster.jpg", trial: "Experiment 1 · success", view: "Head view" }
     ]
@@ -253,87 +253,128 @@ function renderGoalImageTask(task, taskIndex) {
   return group;
 }
 
-function renderDemoCard(task, taskIndex) {
-  const card = document.createElement("article");
-  card.className = "demo-card";
-  card.dataset.family = task.family;
-  const tabs = task.configs.map((config, index) => `
-    <button type="button" role="tab" aria-selected="${index === 0}" tabindex="${index === 0 ? 0 : -1}" data-config="${index}">
-      ${config.label}
-    </button>`).join("");
-  card.innerHTML = `
-    <header class="demo-card-head">
-      <div><span class="demo-index">${String(taskIndex + 1).padStart(2, "0")}</span><span class="demo-family">${task.family}</span></div>
-      <h3>${task.title}</h3>
-      <p>${task.prompt}</p>
+const contextFamilyDetails = {
+  "Self history": {
+    title: "Learning from interaction history",
+    description: "Earlier observations, actions, failures, and discoveries remain available for exploration and recovery."
+  },
+  "Human interaction": {
+    title: "Coordinating through live human cues",
+    description: "Gestures, turn history, and live feedback guide target selection and action timing."
+  }
+};
+
+function renderContextFamilyGroup(tasks, startIndex) {
+  const family = tasks[0].family;
+  const details = contextFamilyDetails[family];
+  const group = document.createElement("article");
+  group.className = "demo-rollout-group context-family-group";
+  group.dataset.family = family;
+  group.dataset.clips = String(tasks.length);
+
+  const cards = tasks.map((task, taskOffset) => {
+    const tabs = task.configs.length > 1
+      ? `<div class="rollout-config-tabs" role="tablist" aria-label="${task.title} configurations">
+          ${task.configs.map((config, configIndex) => `
+            <button type="button" role="tab" aria-selected="${configIndex === 0}" tabindex="${configIndex === 0 ? 0 : -1}" data-config="${configIndex}">${config.label}</button>`).join("")}
+        </div>`
+      : "";
+    return `
+      <figure class="rollout-card" data-context-task="${taskOffset}">
+        <div class="rollout-media">
+          <video class="result-video" controls muted playsinline preload="metadata"></video>
+          <div class="video-overlay"><span class="speed-badge"></span><span class="view-badge"></span></div>
+          <p class="video-error" hidden>Video could not be loaded.</p>
+        </div>
+        <figcaption aria-live="polite">
+          <div class="rollout-caption-head">
+            <h4><span class="demo-index">${String(startIndex + taskOffset + 1).padStart(2, "0")}</span>${task.title}</h4>
+            <span class="rollout-result" data-field="success"></span>
+          </div>
+          <p class="rollout-model" data-field="model"></p>
+          <p class="rollout-task-copy">${task.prompt}</p>
+          <p class="rollout-detail" data-field="detail"></p>
+          ${tabs}
+        </figcaption>
+      </figure>`;
+  }).join("");
+
+  group.innerHTML = `
+    <header class="rollout-group-head">
+      <div class="rollout-group-title">
+        <p class="rollout-kicker"><span class="demo-index">${String(startIndex + 1).padStart(2, "0")}&ndash;${String(startIndex + tasks.length).padStart(2, "0")}</span>${family}</p>
+        <h3>${details.title}</h3>
+        <p>${details.description}</p>
+      </div>
+      <span class="clip-count">${tasks.length} clips</span>
     </header>
-    <div class="config-tabs" role="tablist" aria-label="${task.title} configurations">${tabs}</div>
-    <div class="demo-stage">
-      <video class="result-video" controls muted playsinline preload="metadata"></video>
-      <div class="video-overlay"><span class="speed-badge">20&times; robot run</span><span class="view-badge"></span></div>
-      <p class="video-error" hidden>Video could not be loaded. Please use a modern browser with MP4/H.264 support.</p>
-    </div>
-    <div class="demo-meta" aria-live="polite">
-      <div><span>Model</span><strong data-field="model"></strong></div>
-      <div><span>Context</span><strong data-field="context"></strong></div>
-      <div><span>Success</span><strong class="success-value" data-field="success"></strong></div>
-      <div><span>Mean decisions</span><strong data-field="decisions"></strong></div>
-      <div><span>Mean time</span><strong data-field="time"></strong></div>
-      <div><span>Shown run</span><strong data-field="trial"></strong></div>
+    <div class="rollout-rail-wrap">
+      <button class="rollout-nav previous" type="button" aria-label="Show previous clips"><span aria-hidden="true">&#8249;</span></button>
+      <div class="rollout-rail" aria-label="${family} robot rollouts">${cards}</div>
+      <button class="rollout-nav next" type="button" aria-label="Show more clips"><span aria-hidden="true">&#8250;</span></button>
     </div>`;
 
-  const player = card.querySelector(".result-video");
-  const buttons = [...card.querySelectorAll("[data-config]")];
+  group.querySelectorAll("[data-context-task]").forEach((card, taskOffset) => {
+    const task = tasks[taskOffset];
+    const player = card.querySelector(".result-video");
+    const buttons = [...card.querySelectorAll("[data-config]")];
 
-  function selectConfig(index) {
-    const config = task.configs[index];
-    const wasPlaying = !player.paused;
-    player.pause();
-    player.src = `${config.src}?v=20260914-head`;
-    player.load();
-    if (wasPlaying) player.play().catch(() => {});
-    card.querySelector('[data-field="model"]').textContent = config.model;
-    card.querySelector('[data-field="context"]').textContent = config.context;
-    const success = card.querySelector('[data-field="success"]');
-    success.textContent = config.success;
-    success.className = `success-value ${statusClass(config.success)}`;
-    card.querySelector('[data-field="decisions"]').textContent = config.decisions;
-    card.querySelector('[data-field="time"]').textContent = config.time;
-    card.querySelector('[data-field="trial"]').textContent = config.trial;
-    card.querySelector(".speed-badge").textContent = config.speed || "20× robot run";
-    card.querySelector(".view-badge").textContent = config.view;
-    buttons.forEach((button, buttonIndex) => {
-      const selected = buttonIndex === index;
-      button.setAttribute("aria-selected", String(selected));
-      button.tabIndex = selected ? 0 : -1;
-    });
-  }
+    function selectConfig(index) {
+      const config = task.configs[index];
+      const wasPlaying = !player.paused;
+      player.pause();
+      player.src = `${config.src}?v=20260915-clean-gallery`;
+      player.load();
+      if (wasPlaying) player.play().catch(() => {});
+      const result = card.querySelector('[data-field="success"]');
+      result.textContent = `${config.success} success`;
+      result.className = `rollout-result ${statusClass(config.success)}`;
+      card.querySelector('[data-field="model"]').textContent = `${config.model} · ${config.context}`;
+      card.querySelector('[data-field="detail"]').textContent = `${config.decisions} mean decisions · ${config.time} · ${config.trial}`;
+      card.querySelector(".speed-badge").textContent = config.speed || "20× robot run";
+      card.querySelector(".view-badge").textContent = config.view;
+      buttons.forEach((button, buttonIndex) => {
+        const selected = buttonIndex === index;
+        button.setAttribute("aria-selected", String(selected));
+        button.tabIndex = selected ? 0 : -1;
+      });
+    }
 
-  buttons.forEach((button, index) => {
-    button.addEventListener("click", () => selectConfig(index));
-    button.addEventListener("keydown", (event) => {
-      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-      event.preventDefault();
-      const next = event.key === "ArrowRight"
-        ? (index + 1) % buttons.length
-        : (index - 1 + buttons.length) % buttons.length;
-      buttons[next].focus();
-      selectConfig(next);
+    buttons.forEach((button, index) => {
+      button.addEventListener("click", () => selectConfig(index));
+      button.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const next = event.key === "ArrowRight"
+          ? (index + 1) % buttons.length
+          : (index - 1 + buttons.length) % buttons.length;
+        buttons[next].focus();
+        selectConfig(next);
+      });
     });
+    player.addEventListener("error", () => { card.querySelector(".video-error").hidden = false; });
+    player.addEventListener("loadeddata", () => { card.querySelector(".video-error").hidden = true; });
+    selectConfig(0);
   });
-  player.addEventListener("error", () => { card.querySelector(".video-error").hidden = false; });
-  player.addEventListener("loadeddata", () => { card.querySelector(".video-error").hidden = true; });
-  selectConfig(0);
-  return card;
+
+  activateRolloutRail(group);
+  return group;
 }
 
-demoTasks.forEach((task, index) => {
-  const card = task.family === "Human video"
+demoTasks.slice(0, 4).forEach((task, index) => {
+  demoGrid.appendChild(task.family === "Human video"
     ? renderHumanVideoTask(task, index)
-    : task.family === "Goal image"
-      ? renderGoalImageTask(task, index)
-    : renderDemoCard(task, index);
-  demoGrid.appendChild(card);
+    : renderGoalImageTask(task, index));
+});
+
+const remainingFamilies = Object.groupBy
+  ? Object.values(Object.groupBy(demoTasks.slice(4), (task) => task.family))
+  : [...new Set(demoTasks.slice(4).map((task) => task.family))]
+      .map((family) => demoTasks.slice(4).filter((task) => task.family === family));
+let remainingTaskIndex = 4;
+remainingFamilies.forEach((tasks) => {
+  demoGrid.appendChild(renderContextFamilyGroup(tasks, remainingTaskIndex));
+  remainingTaskIndex += tasks.length;
 });
 
 configuredTasks.forEach((task) => {
