@@ -39,8 +39,8 @@ const demoTasks = [
     prompt: "Imitate the demonstrated two-hand grasp and lift the red towel with the robot's right hand.",
     reference: { src: "assets/videos/towel-reference.mp4", label: "Human egocentric demonstration", duration: "Real time" },
     configs: [
-      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "2 / 3", decisions: "76.7", time: "18.9 min", src: "assets/videos/towel-with-demo.mp4", trial: "Experiment 1 · success", view: "Top view", usesReference: true },
-      { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "0 / 3", decisions: "96.3", time: "24.6 min", src: "assets/videos/towel-no-demo.mp4", trial: "Experiment 1 · give up", view: "Left view", usesReference: false }
+      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "2 / 3", decisions: "76.7", time: "18.9 min", src: "assets/videos/towel-with-demo.mp4", trial: "Experiment 1 · success", view: "Head view", usesReference: true },
+      { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "0 / 3", decisions: "96.3", time: "24.6 min", src: "assets/videos/towel-no-demo.mp4", trial: "Experiment 1 · give up", view: "Head view", usesReference: false }
     ]
   },
   {
@@ -49,8 +49,8 @@ const demoTasks = [
     prompt: "Use the observed pulling procedure to separate the cap from the glue stick.",
     reference: { src: "assets/videos/glue-reference.mp4", label: "Human demonstration", duration: "Real time" },
     configs: [
-      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "3 / 3", decisions: "65.7", time: "16.9 min", src: "assets/videos/glue-with-demo.mp4", trial: "Experiment 2 · success", view: "Top view", usesReference: true },
-      { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "3 / 3", decisions: "49.3", time: "12.2 min", src: "assets/videos/glue-no-demo.mp4", trial: "Experiment 3 · success", view: "Left view", usesReference: false }
+      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "3 / 3", decisions: "65.7", time: "16.9 min", src: "assets/videos/glue-with-demo.mp4", trial: "Experiment 2 · success", view: "Head view", usesReference: true },
+      { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "3 / 3", decisions: "49.3", time: "12.2 min", src: "assets/videos/glue-no-demo.mp4", trial: "Experiment 3 · success", view: "Head view", usesReference: false }
     ]
   },
   {
@@ -58,7 +58,7 @@ const demoTasks = [
     title: "Arrange blocks into a T",
     prompt: "Match the target image's T shape, including block colors, relative positions, and spacing.",
     configs: [
-      { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "59.3", time: "13.3 min", src: "assets/videos/blocks-t.mp4", trial: "Experiment 1 · success", view: "Left view" }
+      { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "59.3", time: "13.3 min", src: "assets/videos/blocks-t.mp4", trial: "Experiment 1 · success", view: "Head view" }
     ]
   },
   {
@@ -66,7 +66,7 @@ const demoTasks = [
     title: "Arrange four fruits",
     prompt: "Reproduce the target layout using the same fruit identities, positions, and spacing.",
     configs: [
-      { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "49.0", time: "12.4 min", src: "assets/videos/fruit-layout.mp4", trial: "Experiment 1 · success", view: "Right view" }
+      { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "49.0", time: "12.4 min", src: "assets/videos/fruit-layout.mp4", trial: "Experiment 1 · success", view: "Head view" }
     ]
   },
   {
@@ -74,7 +74,7 @@ const demoTasks = [
     title: "Find the plate and place the lemon",
     prompt: "Explore the scene, locate the pink plate, and place the lemon onto it.",
     configs: [
-      { label: "Self history", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "35.0", time: "8.1 min", src: "assets/videos/lemon-search.mp4", trial: "Experiment 1 · success", view: "Top view" }
+      { label: "Self history", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "35.0", time: "8.1 min", src: "assets/videos/lemon-search.mp4", trial: "Experiment 1 · success", view: "Head view" }
     ]
   },
   {
@@ -82,8 +82,8 @@ const demoTasks = [
     title: "Movable exploration",
     prompt: "Search for the Sprite bottle by changing viewpoint or moving safe obstacles, then place it in the yellow basket.",
     configs: [
-      { label: "GPT-6", model: "GPT-6", context: "Interaction history", success: "3 / 3", decisions: "40.33", time: "25.53 min", src: "assets/videos/mobile-gpt6.mp4", trial: "Experiment 1 · success", view: "Multi-view" },
-      { label: "Fable 5.1", model: "Fable 5.1", context: "Interaction history", success: "1 / 3", decisions: "35.0", time: "20.79 min", src: "assets/videos/mobile-fable.mp4", trial: "Experiment 1 · failure", view: "Multi-view" }
+      { label: "GPT-6", model: "GPT-6", context: "Interaction history", success: "3 / 3", decisions: "40.33", time: "25.53 min", src: "assets/videos/mobile-gpt6.mp4", trial: "Experiment 1 · success", view: "Head view", speed: "30× robot run" },
+      { label: "Fable 5.1", model: "Fable 5.1", context: "Interaction history", success: "1 / 3", decisions: "35.0", time: "20.79 min", src: "assets/videos/mobile-fable.mp4", trial: "Experiment 1 · failure", view: "Head view", speed: "30× robot run" }
     ]
   },
   {
@@ -91,7 +91,7 @@ const demoTasks = [
     title: "Play tic-tac-toe",
     prompt: "Track the live board and human moves, obey turn-taking, and choose a legal winning or blocking move.",
     configs: [
-      { label: "Live interaction", model: "GPT-6", context: "Online interaction", success: "3 / 3", decisions: "69.7", time: "13.6 min", src: "assets/videos/tic-tac-toe.mp4", trial: "Experiment 1 · success", view: "Right view" }
+      { label: "Live interaction", model: "GPT-6", context: "Online interaction", success: "3 / 3", decisions: "69.7", time: "13.6 min", src: "assets/videos/tic-tac-toe.mp4", trial: "Experiment 1 · success", view: "Head view" }
     ]
   },
   {
@@ -99,7 +99,7 @@ const demoTasks = [
     title: "Pick the pointed fruit",
     prompt: "Wait for a human gesture, then pick the indicated fruit and place it on the plate.",
     configs: [
-      { label: "Live interaction", model: "GPT-6", context: "Online interaction", success: "3 / 3", decisions: "67.3", time: "15.0 min", src: "assets/videos/pointed-fruit.mp4", trial: "Experiment 1 · success", view: "Right view" }
+      { label: "Live interaction", model: "GPT-6", context: "Online interaction", success: "3 / 3", decisions: "67.3", time: "15.0 min", src: "assets/videos/pointed-fruit.mp4", trial: "Experiment 1 · success", view: "Head view" }
     ]
   }
 ];
@@ -167,7 +167,7 @@ function renderDemoCard(task, taskIndex) {
     const config = task.configs[index];
     const wasPlaying = !player.paused;
     player.pause();
-    player.src = config.src;
+    player.src = `${config.src}?v=20260914-head`;
     player.load();
     if (wasPlaying) player.play().catch(() => {});
     card.querySelector('[data-field="model"]').textContent = config.model;
@@ -178,6 +178,7 @@ function renderDemoCard(task, taskIndex) {
     card.querySelector('[data-field="decisions"]').textContent = config.decisions;
     card.querySelector('[data-field="time"]').textContent = config.time;
     card.querySelector('[data-field="trial"]').textContent = config.trial;
+    card.querySelector(".speed-badge").textContent = config.speed || "20× robot run";
     card.querySelector(".view-badge").textContent = config.view;
     if (referenceBlock) referenceBlock.hidden = !config.usesReference;
     buttons.forEach((button, buttonIndex) => {
