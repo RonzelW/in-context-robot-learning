@@ -32,6 +32,7 @@
         <a href="#context">Context</a>
         <a href="#method">Method</a>
         <a href="#results">Results</a>
+        <a href="#demos">Demos</a>
         <a href="#discussion">Discussion</a>
       </nav>
       <a class="header-paper" href="paper.pdf">Paper</a>
@@ -86,6 +87,7 @@
           <a href="#context">Forms of context</a>
           <a href="#method">GPT-Policy</a>
           <a href="#results">Experiments</a>
+          <a href="#demos">Demo gallery</a>
           <a href="#findings">Findings</a>
           <a href="#discussion">Discussion</a>
           <a href="#citation">Citation</a>
@@ -218,6 +220,40 @@
             <p class="table-note">
               Reported values reproduce Table 1 of the current manuscript. Robot visual demonstration
               rows remain unreported in the submitted draft and are therefore not invented here.
+            </p>
+          </section>
+
+          <section id="demos" class="section ruled demo-section">
+            <p class="section-kicker">Interactive demos</p>
+            <h2>See each form of context in action</h2>
+            <p class="section-intro">
+              Each task shows one representative run per model and context configuration. Use the
+              configuration controls to compare conditions without stacking near-duplicate trials.
+              Long robot runs are shown at 20&times; speed; source demonstration clips remain at real time.
+            </p>
+            <div class="demo-legend" aria-label="Demo conventions">
+              <span><i class="legend-dot blue-dot"></i>Conditioning context</span>
+              <span><i class="legend-dot green-dot"></i>Representative robot run</span>
+              <span><i class="legend-dot gray-dot"></i>Aggregate metrics from three trials</span>
+            </div>
+            <div class="demo-grid" id="demo-grid"></div>
+
+            <div class="configured-only">
+              <div class="configured-heading">
+                <div>
+                  <p class="section-kicker">Configured experiments</p>
+                  <h3>Tasks without attached result media</h3>
+                </div>
+                <p>
+                  These conditions are present in the experiment log, but no downloadable result
+                  video was attached. They are listed here without fabricated media or outcomes.
+                </p>
+              </div>
+              <div class="configured-grid" id="configured-grid"></div>
+            </div>
+            <p class="demo-source-note">
+              Configuration labels and metrics are transcribed from the project experiment log,
+              retrieved 14 September 2026. One recorded trial is shown for each available condition.
             </p>
           </section>
 
