@@ -9,7 +9,7 @@
     />
     <meta name="theme-color" content="#f7f8fa" />
     <title>In-Context Robot Learning with General Agents</title>
-    <link rel="stylesheet" href="styles.css?v=20260915-separated-video-badges" />
+    <link rel="stylesheet" href="styles.css?v=20260915-aligned-self-history-compare" />
   </head>
   <body id="top">
     <div class="entry" id="entry" aria-hidden="true">
@@ -241,7 +241,7 @@
               </div>
             </section>
 
-            <section class="model-comparison" aria-labelledby="self-history-comparison-title">
+            <section class="model-comparison self-history-comparison" aria-labelledby="self-history-comparison-title">
               <div class="comparison-heading">
                 <div>
                   <p class="section-kicker">Self-history comparison</p>
@@ -254,25 +254,25 @@
               </div>
               <div class="comparison-grid">
                 <article class="comparison-card">
-                  <header><span>GPT-6 Astra</span><strong class="result-success">3 / 3 success</strong></header>
+                  <header><span>GPT-6 Astra</span><strong class="result-success">Success</strong></header>
                   <div class="comparison-stage">
                     <video controls muted playsinline preload="metadata" data-playback="30× robot run" src="assets/videos/mobile-gpt6.mp4?v=20260915-self-history-compare"></video>
-                    <div class="video-overlay"><span>30&times;</span></div>
+                    <div class="video-overlay"><span>30&times;</span><span>Head view</span></div>
                   </div>
                   <dl>
-                    <div><dt>Mean decisions</dt><dd>40.33</dd></div>
-                    <div><dt>Mean time</dt><dd>25.53 min</dd></div>
+                    <div><dt>Elapsed</dt><dd>22.5 min</dd></div>
+                    <div><dt>Outcome</dt><dd>Task completed</dd></div>
                   </dl>
                 </article>
                 <article class="comparison-card">
-                  <header><span>Claude Fable 5.1</span><strong class="result-failure">1 / 3 success</strong></header>
+                  <header><span>Claude Fable 5.1</span><strong class="result-failure">Failed</strong></header>
                   <div class="comparison-stage">
                     <video controls muted playsinline preload="metadata" data-playback="30× robot run" src="assets/videos/mobile-fable.mp4?v=20260915-self-history-compare"></video>
-                    <div class="video-overlay"><span>30&times;</span></div>
+                    <div class="video-overlay"><span>30&times;</span><span>Head view</span></div>
                   </div>
                   <dl>
-                    <div><dt>Mean decisions</dt><dd>35.0</dd></div>
-                    <div><dt>Mean time</dt><dd>20.79 min</dd></div>
+                    <div><dt>Elapsed</dt><dd>17.5 min</dd></div>
+                    <div><dt>Outcome</dt><dd>Task failed</dd></div>
                   </dl>
                 </article>
               </div>
