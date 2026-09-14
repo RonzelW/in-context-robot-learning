@@ -67,13 +67,16 @@ img { display: block; max-width: 100%; }
 
 .hero { padding: 112px 0 70px; text-align: center; }
 .section-kicker { color: var(--muted); font: 700 10px ui-monospace, monospace; letter-spacing: .16em; text-transform: uppercase; }
-h1 { max-width: 1000px; margin: 24px auto 18px; font-size: clamp(46px, 7vw, 92px); font-weight: 660; line-height: .98; letter-spacing: -.065em; }
+h1 { max-width: 1100px; margin: 24px auto 18px; font-size: clamp(29px, 6.2vw, 82px); font-weight: 660; line-height: .98; letter-spacing: -.065em; text-align: center; }
+h1 span { display: block; white-space: nowrap; }
 .authors { margin: 0; font-size: 16px; font-weight: 650; }
 .hero-lead { max-width: 750px; margin: 30px auto 0; color: #515762; font-size: clamp(17px, 2vw, 21px); line-height: 1.55; letter-spacing: -.018em; }
 .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 32px; }
 .button { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 19px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 650; transition: transform 180ms ease, box-shadow 180ms ease; }
 .button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(20,25,35,.1); }
 .button.dark { border-color: var(--ink); background: var(--ink); color: white; }
+.code-button { padding-inline: 17px 20px; }
+.github-icon { width: 18px; height: 18px; fill: currentColor; }
 .hero-figure { margin-top: 78px; text-align: left; }
 .frame-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .frame-grid figure { margin: 0; }
@@ -168,7 +171,6 @@ td:nth-child(n+3) { font-family: ui-monospace, monospace; }
 .human-panel-meta .wide { grid-column: 1 / -1; }
 .human-panel-meta dt { color: #89909b; font: 700 7px ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
 .human-panel-meta dd { margin: 4px 0 0; overflow-wrap: anywhere; font-size: 9px; font-weight: 650; line-height: 1.4; }
-.human-panel-meta code { color: #465366; font: 500 8px ui-monospace, monospace; }
 .human-panel-meta .success-value { display: block; }
 .demo-card { min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: #fff; box-shadow: 0 16px 44px -38px rgba(22, 34, 51, .5); }
 .demo-card-head { min-height: 176px; padding: 5px 4px 16px; }
@@ -291,7 +293,7 @@ footer { border-top: 1px solid var(--line); background: var(--soft); }
   .shell { width: min(calc(100% - 28px), var(--max)); }
   .site-header { min-height: 58px; padding: 0 15px; }
   .hero { padding-top: 74px; }
-  h1 { font-size: 44px; }
+  h1 { font-size: clamp(27px, 7.2vw, 44px); }
   .frame-grid { grid-template-columns: 1fr 1fr; }
   .context-grid, .pipeline, .metric-row, .split-section, .footer-inner { grid-template-columns: 1fr; }
   .configured-heading, .configured-grid, .comparison-heading, .comparison-grid { grid-template-columns: 1fr; }

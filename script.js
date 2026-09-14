@@ -41,7 +41,6 @@ const demoTasks = [
       src: "assets/videos/towel-reference.mp4?v=20260914-human-source",
       poster: "assets/images/towel-human-poster.jpg",
       label: "Original human video",
-      source: "towel2026-09-11_124214_980.mp4",
       duration: "Real time · 23.8 s"
     },
     configs: [
@@ -57,7 +56,6 @@ const demoTasks = [
       src: "assets/videos/glue-reference.mp4?v=20260914-human-source",
       poster: "assets/images/glue-human-poster.jpg",
       label: "Original human video",
-      source: "pull_off_gule.mp4",
       duration: "Real time · 12.0 s"
     },
     configs: [
@@ -169,7 +167,6 @@ function renderHumanVideoTask(task, taskIndex) {
         <dl class="human-panel-meta reference-meta">
           <div><dt>Role</dt><dd>Conditioning input</dd></div>
           <div><dt>Playback</dt><dd>Real time</dd></div>
-          <div class="wide"><dt>Source</dt><dd><code>${task.reference.source}</code></dd></div>
         </dl>
       </article>
       ${resultPanels}
