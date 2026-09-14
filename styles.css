@@ -246,7 +246,7 @@ td:nth-child(n+3) { font-family: ui-monospace, monospace; }
 
 .finding-list { display: grid; gap: 10px; margin-top: 44px; }
 .finding-list article { position: relative; padding: 28px 110px 28px 30px; border: 1px solid var(--line); overflow: hidden; transition: transform 280ms ease, border-color 280ms ease; }
-.finding-list article::after { position: absolute; right: 18px; bottom: -35px; content: attr(data-index); color: var(--blue); font: 700 110px ui-monospace, monospace; opacity: .055; }
+.finding-list article::after { position: absolute; top: 50%; right: 18px; content: attr(data-index); color: var(--blue); font: 700 110px/1 ui-monospace, monospace; opacity: .055; pointer-events: none; transform: translateY(-50%); }
 .finding-list article:hover { transform: translateX(6px); border-color: #a7bbdb; }
 .finding-list span { color: var(--blue); font: 700 9px ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
 .finding-list h3 { margin: 10px 0 7px; font-size: 20px; letter-spacing: -.025em; }
