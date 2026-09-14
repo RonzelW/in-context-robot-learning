@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Geist";
+  src: url("assets/fonts/geist-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
   --ink: #111318;
   --muted: #666c78;
@@ -18,7 +26,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Geist", Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; text-decoration: none; }
@@ -58,8 +66,7 @@ img { display: block; max-width: 100%; }
   background: rgba(255,255,255,.88);
   backdrop-filter: blur(14px);
 }
-.brand { display: inline-flex; align-items: center; gap: 10px; width: fit-content; font-size: 14px; font-weight: 720; letter-spacing: -.02em; }
-.brand-icon { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--ink); border-radius: 8px; font: 700 10px ui-monospace, monospace; }
+.brand { display: inline-flex; align-items: center; width: fit-content; font-size: 15px; font-weight: 720; letter-spacing: -.025em; }
 .site-header nav { display: flex; gap: 26px; color: #4d5360; font-size: 13px; }
 .site-header nav a, .header-paper { transition: color 180ms ease; }
 .site-header nav a:hover, .site-header nav a.active, .header-paper:hover { color: var(--blue); }
@@ -76,7 +83,8 @@ h1 span { display: block; white-space: nowrap; }
 .button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(20,25,35,.1); }
 .button.dark { border-color: var(--ink); background: var(--ink); color: white; }
 .code-button { padding-inline: 17px 20px; }
-.github-icon { width: 18px; height: 18px; fill: currentColor; }
+.github-icon, .arxiv-icon { width: 18px; height: 18px; fill: currentColor; }
+.paper-button { padding-inline: 17px 20px; }
 .hero-figure { margin-top: 78px; text-align: left; }
 .frame-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .frame-grid figure { margin: 0; }
@@ -263,6 +271,48 @@ td:nth-child(n+3) { font-family: ui-monospace, monospace; }
 .code-block { position: relative; margin-top: 40px; border: 1px solid var(--line); background: #f7f8fa; }
 .code-block button { position: absolute; top: 14px; right: 14px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 4px; background: white; color: #454b55; font: 700 9px ui-monospace, monospace; cursor: pointer; text-transform: uppercase; }
 pre { margin: 0; padding: 32px; overflow-x: auto; font: 12px/1.7 ui-monospace, "SFMono-Regular", Consolas, monospace; }
+
+/* OpenWAM-inspired editorial labels: sentence case, compact spacing, and Geist Sans. */
+.header-paper,
+.section-kicker,
+.contents p,
+.abstract-grid h3,
+.research-question span,
+.card-label,
+.metric-row span,
+th,
+.demo-legend,
+.human-video-panel > header span,
+.human-panel-meta dt,
+.demo-family,
+.video-overlay span,
+.demo-meta span,
+.comparison-context span,
+.comparison-card header strong,
+.comparison-card dt,
+.comparison-subcontrol > span,
+.configured-card > span,
+.finding-list span,
+.code-block button {
+  font-family: "Geist", Inter, ui-sans-serif, sans-serif;
+  letter-spacing: .015em;
+  text-transform: none;
+}
+
+.section-kicker,
+.abstract-grid h3,
+.research-question span {
+  font-size: 12px;
+  font-weight: 620;
+}
+
+.figure-caption,
+.method-figure figcaption,
+.table-note,
+.comparison-note,
+.demo-source-note {
+  font-family: "Geist", Inter, ui-sans-serif, sans-serif;
+}
 
 footer { border-top: 1px solid var(--line); background: var(--soft); }
 .footer-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; min-height: 150px; }
