@@ -171,6 +171,45 @@ const demoTasks = [
     family: "Human interaction",
     title: "Pick the pointed fruit",
     prompt: "Wait for a human gesture, then pick the indicated fruit and place it on the plate.",
+    historyTitle: "Online interaction context",
+    historySteps: [
+      {
+        title: "Wait for the first gesture",
+        text: "No pointing hand or OK gesture is visible in any of the three camera views, so both arms remain still. Although the avocado is moved outside the plate and the scene layout changes, object motion alone is not treated as an instruction."
+      },
+      {
+        title: "Identify the red apple",
+        text: "The left-wrist and top views agree that an index finger points to the red apple. The target is locked, but the robot waits through three observation cycles because the hand remains near the fruit and gripper. Only the camera ray through a stable top-surface feature is retained; a single RGB observation is not used as a metric coordinate."
+      },
+      {
+        title: "Triangulate the apple",
+        text: "After the hand withdraws, the left wrist rises about 4 cm to create parallax. The first estimate is rejected because the 4.71° parallax angle is degenerate. A further 5 cm lift widens the baseline, allowing the same surface feature to yield a valid metric position."
+      },
+      {
+        title: "Approach and grasp",
+        text: "A vertical top-down grasp is rejected at a joint limit, so the wrist switches to a reachable 45° forward-downward pose. The gripper descends in three checked stages while keeping neighboring grapes outside the grasp region. After closing to 0.55, a 3 cm lift confirms that the apple remains fixed relative to the fingers while the background peach shifts."
+      },
+      {
+        title: "Place the apple",
+        text: "With the apple held at a safe height, a second viewing angle triangulates the partially visible blue plate; the plate-center ray and rim-height plane define the placement region. The robot descends from 0.065 m to 0.025 m, releases, then retreats about 3 cm and lifts to verify that the apple remains on the plate and is clear of both fingers."
+      },
+      {
+        title: "Recognize the peach",
+        text: "Back at the observation pose, the robot detects a finger pointing to the peach. It records the next target but remains still until the hand withdraws, retaining a camera ray through the peach’s green leaf tip."
+      },
+      {
+        title: "Triangulate the peach",
+        text: "An 8 cm forward translation creates sufficient parallax to localize the leaf tip. Because the tip is not a suitable grasp center, a second match on the fruit’s central vertical texture refines the body position and finger alignment."
+      },
+      {
+        title: "Approach and grasp again",
+        text: "The robot approaches along the left in checked stages—from the pre-approach pose to roughly 6 cm, 1.4 cm, and then grasp depth above the target—while ensuring the grapes remain outside the fingers. After closing, a 3 cm lift and the same foreground-background parallax test confirm a secure grasp before retreating to a safe height."
+      },
+      {
+        title: "Place the peach and finish",
+        text: "The existing plate-rim estimate is reused. With the apple occupying the near side, the robot selects an open region farther into the plate, descends in stages, and releases the peach. A retreat view confirms that both fruits remain on the plate and clear of the gripper; the robot returns to observation and calls <code>done</code>."
+      }
+    ],
     configs: [
       { label: "Live interaction", model: "GPT-6 Astra", context: "Online interaction", success: "3 / 3", decisions: "67.3", time: "15.0 min", src: "assets/videos/pointed-fruit.mp4", trial: "Success", view: "Head view" }
     ]

@@ -213,6 +213,7 @@ td:nth-child(n+3) { font-family: ui-monospace, monospace; }
 .context-family-group .rollout-model { color: #555e69; }
 .context-family-group .rollout-task-copy { max-width: 520px; margin-top: 8px; }
 .history-enriched-layout { display: grid; grid-template-columns: minmax(330px, .9fr) minmax(0, 1.35fr); gap: 34px; align-items: start; }
+.history-enriched-layout > .rollout-rail-wrap { position: sticky; top: 24px; }
 .history-enriched-group .rollout-rail { justify-content: stretch; }
 .history-enriched-group .rollout-card { flex-basis: 100%; }
 .history-summary { min-width: 0; padding: 2px 0 0; }
@@ -330,6 +331,7 @@ footer { border-top: 1px solid var(--line); background: var(--soft); }
   .demo-rollout-group[data-clips] .rollout-card { flex-basis: min(420px, 78vw); }
   .demo-rollout-group[data-clips="1"] .rollout-rail { justify-content: flex-start; padding-inline: calc((100% - min(420px, 78vw)) / 2); }
   .history-enriched-layout { grid-template-columns: 1fr; gap: 28px; }
+  .history-enriched-layout > .rollout-rail-wrap { position: static; }
   .history-enriched-group.demo-rollout-group[data-clips="1"] .rollout-rail { justify-content: center; padding-inline: 0; }
   .history-enriched-group.demo-rollout-group[data-clips="1"] .rollout-card { flex-basis: min(480px, 100%); }
   .history-summary { width: min(100%, 680px); margin-inline: auto; }
