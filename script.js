@@ -67,16 +67,18 @@ const demoTasks = [
     family: "Goal image",
     title: "Arrange blocks into a T",
     prompt: "Match the target image's T shape, including block colors, relative positions, and spacing.",
+    targetImage: "assets/images/5cubes-in-T-shape.jpg",
     configs: [
-      { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "59.3", time: "13.3 min", src: "assets/videos/blocks-t.mp4", trial: "Experiment 1 · success", view: "Head view" }
+      { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "59.3", time: "13.3 min", src: "assets/videos/blocks-t.mp4", poster: "assets/images/blocks-t-run-poster.jpg", trial: "Experiment 1 · success", view: "Head view" }
     ]
   },
   {
     family: "Goal image",
     title: "Arrange four fruits",
     prompt: "Reproduce the target layout using the same fruit identities, positions, and spacing.",
+    targetImage: "assets/images/go-image-4fruits.jpg",
     configs: [
-      { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "49.0", time: "12.4 min", src: "assets/videos/fruit-layout.mp4", trial: "Experiment 1 · success", view: "Head view" }
+      { label: "Goal image", model: "GPT-6", context: "Target image", success: "3 / 3", decisions: "49.0", time: "12.4 min", src: "assets/videos/fruit-layout.mp4", poster: "assets/images/fruit-layout-run-poster.jpg", trial: "Experiment 1 · success", view: "Head view" }
     ]
   },
   {
@@ -178,6 +180,51 @@ function renderHumanVideoTask(task, taskIndex) {
   return card;
 }
 
+function renderGoalImageTask(task, taskIndex) {
+  const config = task.configs[0];
+  const card = document.createElement("article");
+  card.className = "human-demo-task goal-image-task";
+  card.dataset.family = task.family;
+
+  card.innerHTML = `
+    <header class="human-demo-task-head">
+      <div><span class="demo-index">${String(taskIndex + 1).padStart(2, "0")}</span><span class="demo-family">${task.family}</span></div>
+      <h3>${task.title}</h3>
+      <p>${task.prompt}</p>
+    </header>
+    <div class="human-video-strip goal-image-strip" aria-label="${task.title}: target image and robot rollout">
+      <article class="human-video-panel target-image-panel">
+        <header><span>01 · Conditioning input</span><h4>Target image</h4></header>
+        <div class="human-video-stage goal-image-stage">
+          <img src="${task.targetImage}" alt="Target arrangement for ${task.title.toLowerCase()}" />
+        </div>
+        <dl class="human-panel-meta reference-meta">
+          <div><dt>Role</dt><dd>Conditioning input</dd></div>
+          <div><dt>Format</dt><dd>Goal image</dd></div>
+        </dl>
+      </article>
+      <article class="human-video-panel result-panel">
+        <header><span>02 · Robot rollout</span><h4>Evaluation run</h4></header>
+        <div class="human-video-stage">
+          <video controls muted playsinline preload="metadata" poster="${config.poster}" src="${config.src}?v=20260914-goal-image"></video>
+          <div class="video-overlay"><span>${config.speed || "20× robot run"}</span><span>${config.view}</span></div>
+        </div>
+        <dl class="human-panel-meta">
+          <div><dt>Model</dt><dd>${config.model}</dd></div>
+          <div><dt>Success</dt><dd class="success-value ${statusClass(config.success)}">${config.success}</dd></div>
+          <div><dt>Mean decisions</dt><dd>${config.decisions}</dd></div>
+          <div><dt>Mean time</dt><dd>${config.time}</dd></div>
+          <div class="wide"><dt>Shown run</dt><dd>${config.trial}</dd></div>
+        </dl>
+      </article>
+    </div>`;
+
+  card.querySelector("video").addEventListener("error", (event) => {
+    event.currentTarget.closest(".human-video-stage").classList.add("video-load-failed");
+  });
+  return card;
+}
+
 function renderDemoCard(task, taskIndex) {
   const card = document.createElement("article");
   card.className = "demo-card";
@@ -255,6 +302,8 @@ function renderDemoCard(task, taskIndex) {
 demoTasks.forEach((task, index) => {
   const card = task.family === "Human video"
     ? renderHumanVideoTask(task, index)
+    : task.family === "Goal image"
+      ? renderGoalImageTask(task, index)
     : renderDemoCard(task, index);
   demoGrid.appendChild(card);
 });
