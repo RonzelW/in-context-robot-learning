@@ -15,7 +15,7 @@ entry.addEventListener("click", dismissEntry, { once: true });
 window.setTimeout(dismissEntry, 2200);
 
 const pageSections = [...document.querySelectorAll("main section[id]")];
-const navLinks = [...document.querySelectorAll('.site-header nav a, .contents a')];
+const navLinks = [...document.querySelectorAll('.contents a')];
 
 const sectionObserver = new IntersectionObserver(
   (entries) => {
