@@ -9,7 +9,7 @@
     />
     <meta name="theme-color" content="#f7f8fa" />
     <title>In-Context Robot Learning with General Agents</title>
-    <link rel="stylesheet" href="styles.css?v=20260915-centered-single-clips" />
+    <link rel="stylesheet" href="styles.css?v=20260915-compact-comparisons" />
   </head>
   <body id="top">
     <div class="entry" id="entry" aria-hidden="true">
@@ -226,22 +226,16 @@
               <div class="comparison-heading">
                 <div>
                   <p class="section-kicker">Controlled comparison</p>
-                  <h3 id="model-comparison-title">Same task and context, different agents</h3>
+                  <h3 id="model-comparison-title">Human-video comparison</h3>
                 </div>
-                <p>
-                  Both agents receive the same red-towel instruction and the same eight frames
-                  extracted from the human demonstration. Compare one GPT-6 Astra run with two
-                  Claude Fable 5.1 evaluation batches from the head camera.
-                </p>
               </div>
               <div class="comparison-context">
                 <span>Task</span><b>Pick up the red towel with the right hand</b>
-                <span>Context</span><b>Human video · 8 extracted frames</b>
-                <span>View</span><b>Head camera</b>
+                <span>Condition</span><b>Human video · 8 frames</b>
               </div>
-              <div class="comparison-tabs" role="tablist" aria-label="Claude Fable 5.1 evaluation batches">
-                <button type="button" role="tab" aria-selected="true" data-claude-batch="paper">paper · r01</button>
-                <button type="button" role="tab" aria-selected="false" data-claude-batch="fixed">towel-fable51-fixed · r01</button>
+              <div class="comparison-tabs" role="tablist" aria-label="Claude Fable 5.1 runs">
+                <button type="button" role="tab" aria-selected="true" data-claude-batch="paper">Run 1</button>
+                <button type="button" role="tab" aria-selected="false" data-claude-batch="fixed">Run 2</button>
               </div>
               <div class="comparison-grid">
                 <article class="comparison-card">
@@ -251,10 +245,8 @@
                     <div class="video-overlay"><span>20&times; robot run</span><span>Head view</span></div>
                   </div>
                   <dl>
-                    <div><dt>Context</dt><dd>Human video</dd></div>
                     <div><dt>Decisions</dt><dd>61</dd></div>
                     <div><dt>Elapsed</dt><dd>950.7 s</dd></div>
-                    <div><dt>Outcome</dt><dd>Task completed</dd></div>
                   </dl>
                 </article>
                 <article class="comparison-card claude-comparison-card">
@@ -265,35 +257,23 @@
                     <p class="video-error" id="claude-comparison-error" hidden>Video could not be loaded.</p>
                   </div>
                   <dl aria-live="polite">
-                    <div><dt>Batch</dt><dd data-compare-field="batch"></dd></div>
                     <div><dt>Decisions</dt><dd data-compare-field="decisions"></dd></div>
                     <div><dt>Elapsed</dt><dd data-compare-field="time"></dd></div>
-                    <div><dt>Outcome</dt><dd data-compare-field="outcome"></dd></div>
                   </dl>
                 </article>
               </div>
-              <p class="comparison-note">
-                This is a qualitative, matched-condition comparison of individual runs, not an
-                aggregate model ranking. Both Claude Fable 5.1 failures were triggered by arm tracking errors.
-              </p>
             </section>
 
             <section class="model-comparison" aria-labelledby="self-history-comparison-title">
               <div class="comparison-heading">
                 <div>
-                  <p class="section-kicker">Matched self-history comparison</p>
-                  <h3 id="self-history-comparison-title">Movable exploration across general agents</h3>
+                  <p class="section-kicker">Self-history comparison</p>
+                  <h3 id="self-history-comparison-title">Movable exploration</h3>
                 </div>
-                <p>
-                  GPT-6 Astra and Claude Fable 5.1 receive the same task and retain their own
-                  interaction histories while exploring the scene. The representative head-camera
-                  runs are shown side by side.
-                </p>
               </div>
               <div class="comparison-context">
                 <span>Task</span><b>Find the Sprite bottle and place it in the yellow basket</b>
-                <span>Context</span><b>Self-interaction history</b>
-                <span>View</span><b>Head camera</b>
+                <span>Condition</span><b>Interaction history</b>
               </div>
               <div class="comparison-grid">
                 <article class="comparison-card">
@@ -303,10 +283,8 @@
                     <div class="video-overlay"><span>30&times; robot run</span><span>Head view</span></div>
                   </div>
                   <dl>
-                    <div><dt>Context</dt><dd>Interaction history</dd></div>
                     <div><dt>Mean decisions</dt><dd>40.33</dd></div>
                     <div><dt>Mean time</dt><dd>25.53 min</dd></div>
-                    <div><dt>Shown run</dt><dd>Success</dd></div>
                   </dl>
                 </article>
                 <article class="comparison-card">
@@ -316,30 +294,19 @@
                     <div class="video-overlay"><span>30&times; robot run</span><span>Head view</span></div>
                   </div>
                   <dl>
-                    <div><dt>Context</dt><dd>Interaction history</dd></div>
                     <div><dt>Mean decisions</dt><dd>35.0</dd></div>
                     <div><dt>Mean time</dt><dd>20.79 min</dd></div>
-                    <div><dt>Shown run</dt><dd>Failure</dd></div>
                   </dl>
                 </article>
               </div>
-              <p class="comparison-note">
-                This is a qualitative comparison of representative runs under the same task family,
-                not an aggregate model ranking.
-              </p>
             </section>
 
             <section class="model-comparison kimi-comparison" aria-labelledby="kimi-comparison-title">
               <div class="comparison-heading">
                 <div>
-                  <p class="section-kicker">Text-only baseline comparison</p>
-                  <h3 id="kimi-comparison-title">Same task and context, GPT-6 Astra vs. Kimi K3</h3>
+                  <p class="section-kicker">Baseline comparison</p>
+                  <h3 id="kimi-comparison-title">Text-only comparison</h3>
                 </div>
-                <p>
-                  Compare head-camera recordings under the same text-only, no-demonstration
-                  condition. Switch tasks below; repeated Kimi K3 runs for the same task share one
-                  matched GPT-6 Astra reference instead of duplicating the video.
-                </p>
               </div>
               <div class="comparison-tabs comparison-task-tabs" role="tablist" aria-label="Kimi K3 comparison tasks">
                 <button type="button" role="tab" aria-selected="true" data-kimi-task="remove">Remove fruit</button>
@@ -348,8 +315,7 @@
               </div>
               <div class="comparison-context" aria-live="polite">
                 <span>Task</span><b data-kimi-context-field="task"></b>
-                <span>Context</span><b>Text only · no demonstration</b>
-                <span>View</span><b>Head camera</b>
+                <span>Condition</span><b>Text only · no demonstration</b>
               </div>
               <div class="comparison-subcontrol">
                 <span>Kimi K3 run</span>
@@ -364,9 +330,7 @@
                     <p class="video-error" id="gpt6-kimi-comparison-error" hidden>Video could not be loaded.</p>
                   </div>
                   <dl aria-live="polite">
-                    <div><dt>Batch</dt><dd data-gpt-kimi-field="batch"></dd></div>
                     <div><dt>Elapsed</dt><dd data-gpt-kimi-field="time"></dd></div>
-                    <div><dt>Instruction</dt><dd data-gpt-kimi-field="instruction"></dd></div>
                     <div><dt>Outcome</dt><dd>Task completed</dd></div>
                   </dl>
                 </article>
@@ -378,18 +342,12 @@
                     <p class="video-error" id="kimi-comparison-error" hidden>Video could not be loaded.</p>
                   </div>
                   <dl aria-live="polite">
-                    <div><dt>Batch</dt><dd data-kimi-field="batch"></dd></div>
                     <div><dt>Elapsed</dt><dd data-kimi-field="time"></dd></div>
-                    <div><dt>Instruction</dt><dd data-kimi-field="instruction"></dd></div>
                     <div><dt>Outcome</dt><dd data-kimi-field="outcome"></dd></div>
                   </dl>
                 </article>
               </div>
-              <p class="comparison-callout" id="kimi-comparison-note" aria-live="polite"></p>
-              <p class="comparison-note">
-                Interrupted runs are counted as failures. This is a qualitative comparison of
-                individual matched runs, not an aggregate model ranking.
-              </p>
+              <p class="comparison-callout" id="kimi-comparison-note" aria-live="polite" hidden></p>
             </section>
 
             <div class="configured-only">
@@ -477,6 +435,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260915-split-interaction-demos"></script>
+    <script src="script.js?v=20260915-compact-comparisons"></script>
   </body>
 </html>

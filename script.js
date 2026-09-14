@@ -393,17 +393,13 @@ configuredTasks.forEach((task) => {
 
 const claudeComparisonRuns = {
   paper: {
-    batch: "paper · r01",
     decisions: "35",
     time: "795.5 s",
-    outcome: "Left arm can1 tracking error",
     src: "assets/videos/claude-towel-paper-head.mp4"
   },
   fixed: {
-    batch: "towel-fable51-fixed · r01",
     decisions: "3",
     time: "76.3 s",
-    outcome: "Right arm can3 tracking error",
     src: "assets/videos/claude-towel-fixed-head.mp4"
   }
 };
@@ -419,10 +415,8 @@ function selectClaudeComparison(batchKey) {
   comparisonVideo.src = `${run.src}?v=20260914-compare`;
   comparisonVideo.load();
   if (wasPlaying) comparisonVideo.play().catch(() => {});
-  document.querySelector('[data-compare-field="batch"]').textContent = run.batch;
   document.querySelector('[data-compare-field="decisions"]').textContent = run.decisions;
   document.querySelector('[data-compare-field="time"]').textContent = run.time;
-  document.querySelector('[data-compare-field="outcome"]').textContent = run.outcome;
   comparisonButtons.forEach((button) => {
     button.setAttribute("aria-selected", String(button.dataset.claudeBatch === batchKey));
   });
@@ -447,7 +441,7 @@ const kimiComparisonTasks = {
     runs: [
       {
         key: "remove-mismatch",
-        label: "04:26 · prompt mismatch",
+        label: "Run 1 · mismatch",
         batch: "20260913-042615 · interrupted",
         time: "801.7 s",
         instruction: "Remove the fruit from the plate",
@@ -455,11 +449,11 @@ const kimiComparisonTasks = {
         status: "Failed",
         statusClass: "result-failure",
         src: "assets/videos/kimi-remove-inconsistent-head.mp4",
-        note: "Known input inconsistency: the executed instruction was ‘Remove the fruit from the plate’, while the logged content said ‘Pick up the fruit’."
+        note: "Logged prompt mismatch."
       },
       {
         key: "remove-consistent",
-        label: "15:35 · matched prompt",
+        label: "Run 2",
         batch: "20260913-153501 · interrupted",
         time: "170.5 s",
         instruction: "Remove the fruit from the plate",
@@ -467,7 +461,7 @@ const kimiComparisonTasks = {
         status: "Failed",
         statusClass: "result-failure",
         src: "assets/videos/kimi-remove-consistent-head.mp4",
-        note: "The task instruction and logged content are consistent for this Kimi K3 run."
+        note: ""
       }
     ]
   },
@@ -482,7 +476,7 @@ const kimiComparisonTasks = {
     runs: [
       {
         key: "place-give-up",
-        label: "04:44 · give up",
+        label: "Run 1",
         batch: "20260913-044453 · give up",
         time: "3454.3 s",
         instruction: "Pick up the fruit and place it on the plate",
@@ -490,7 +484,7 @@ const kimiComparisonTasks = {
         status: "Failed",
         statusClass: "result-failure",
         src: "assets/videos/kimi-place-fruit-head.mp4",
-        note: "Both agents receive semantically equivalent text-only instructions with no demonstration; Kimi K3 explicitly gives up."
+        note: ""
       }
     ]
   },
@@ -505,7 +499,7 @@ const kimiComparisonTasks = {
     runs: [
       {
         key: "raise-success",
-        label: "15:27 · success",
+        label: "Run 1",
         batch: "20260913-152700 · success",
         time: "40.4 s",
         instruction: "Raise both arms",
@@ -513,7 +507,7 @@ const kimiComparisonTasks = {
         status: "Success",
         statusClass: "result-success",
         src: "assets/videos/kimi-raise-arms-head.mp4",
-        note: "The task instruction is identical and both agents complete the text-only, no-demonstration task."
+        note: ""
       }
     ]
   }
@@ -545,13 +539,12 @@ function loadKimiComparisonVideo(video, error, src) {
 function selectKimiRun(taskKey, runKey) {
   const run = kimiComparisonTasks[taskKey].runs.find((candidate) => candidate.key === runKey);
   loadKimiComparisonVideo(kimiVideo, kimiVideoError, run.src);
-  setKimiField('[data-kimi-field="batch"]', run.batch);
   setKimiField('[data-kimi-field="time"]', run.time);
-  setKimiField('[data-kimi-field="instruction"]', run.instruction);
   setKimiField('[data-kimi-field="outcome"]', run.outcome);
   kimiStatus.textContent = run.status;
   kimiStatus.className = run.statusClass;
   kimiNote.textContent = run.note;
+  kimiNote.hidden = !run.note;
   [...kimiRunTabs.querySelectorAll("button")].forEach((button) => {
     button.setAttribute("aria-selected", String(button.dataset.kimiRun === runKey));
   });
@@ -560,9 +553,7 @@ function selectKimiRun(taskKey, runKey) {
 function selectKimiTask(taskKey) {
   const task = kimiComparisonTasks[taskKey];
   setKimiField('[data-kimi-context-field="task"]', task.task);
-  setKimiField('[data-gpt-kimi-field="batch"]', task.gpt.batch);
   setKimiField('[data-gpt-kimi-field="time"]', task.gpt.time);
-  setKimiField('[data-gpt-kimi-field="instruction"]', task.gpt.instruction);
   loadKimiComparisonVideo(gptKimiVideo, gptKimiError, task.gpt.src);
   kimiTaskButtons.forEach((button) => {
     button.setAttribute("aria-selected", String(button.dataset.kimiTask === taskKey));
