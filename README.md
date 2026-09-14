@@ -6,6 +6,8 @@ The interactive demo gallery groups recordings by task and lets visitors switch 
 
 A matched-condition comparison pairs the GPT-6 Astra red-towel run with two Claude Fable 5.1 batches using the same instruction, eight-frame human-video context, and head-camera view.
 
+A second interactive comparison covers four Kimi K3 1M runs under text-only, no-demonstration conditions. Three task controls reuse one matched GPT-6 Astra reference per distinct task; the two Kimi runs for removing fruit from a plate are grouped behind a run selector. Interrupted runs are counted as failures, and the known prompt/content mismatch is disclosed in the module. All comparison videos use the head camera and are encoded at 20x speed.
+
 ## Preview
 
 Open `index.html` directly, or serve the folder with any static web server.

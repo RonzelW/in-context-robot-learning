@@ -261,6 +261,158 @@ comparisonVideo.addEventListener("error", () => { comparisonError.hidden = false
 comparisonVideo.addEventListener("loadeddata", () => { comparisonError.hidden = true; });
 selectClaudeComparison("paper");
 
+const kimiComparisonTasks = {
+  remove: {
+    task: "Remove fruit from the plate",
+    gpt: {
+      batch: "20260912-081820 · success",
+      time: "208.2 s",
+      instruction: "把水果拿出盘子",
+      src: "assets/videos/gpt6-remove-fruit-head.mp4"
+    },
+    runs: [
+      {
+        key: "remove-mismatch",
+        label: "04:26 · prompt mismatch",
+        batch: "20260913-042615 · interrupted",
+        time: "801.7 s",
+        instruction: "把水果拿出盘子",
+        outcome: "Interrupted → failed",
+        status: "Failed",
+        statusClass: "result-failure",
+        src: "assets/videos/kimi-remove-inconsistent-head.mp4",
+        note: "Known input inconsistency: the executed instruction is ‘把水果拿出盘子’, but the logged content says ‘拿起水果’."
+      },
+      {
+        key: "remove-consistent",
+        label: "15:35 · matched prompt",
+        batch: "20260913-153501 · interrupted",
+        time: "170.5 s",
+        instruction: "把水果从盘子拿出来",
+        outcome: "Interrupted → failed",
+        status: "Failed",
+        statusClass: "result-failure",
+        src: "assets/videos/kimi-remove-consistent-head.mp4",
+        note: "The task instruction and logged content are consistent for this Kimi run."
+      }
+    ]
+  },
+  place: {
+    task: "Pick up fruit and place it in the plate",
+    gpt: {
+      batch: "20260912-080526 · success",
+      time: "253.7 s",
+      instruction: "把水果拿到盘子内",
+      src: "assets/videos/gpt6-place-fruit-head.mp4"
+    },
+    runs: [
+      {
+        key: "place-give-up",
+        label: "04:44 · give up",
+        batch: "20260913-044453 · give up",
+        time: "3454.3 s",
+        instruction: "拿起水果放进盘子",
+        outcome: "Model gave up → failed",
+        status: "Failed",
+        statusClass: "result-failure",
+        src: "assets/videos/kimi-place-fruit-head.mp4",
+        note: "Both agents receive semantically equivalent text-only instructions with no demonstration; Kimi explicitly gives up."
+      }
+    ]
+  },
+  raise: {
+    task: "Raise both arms",
+    gpt: {
+      batch: "20260912-095109 · success",
+      time: "40.6 s",
+      instruction: "双臂抬起",
+      src: "assets/videos/gpt6-raise-arms-head.mp4"
+    },
+    runs: [
+      {
+        key: "raise-success",
+        label: "15:27 · success",
+        batch: "20260913-152700 · success",
+        time: "40.4 s",
+        instruction: "双臂抬起",
+        outcome: "Task completed",
+        status: "Success",
+        statusClass: "result-success",
+        src: "assets/videos/kimi-raise-arms-head.mp4",
+        note: "The task instruction is identical and both agents complete the text-only, no-demonstration task."
+      }
+    ]
+  }
+};
+
+const kimiModule = document.querySelector(".kimi-comparison");
+const kimiTaskButtons = [...document.querySelectorAll("[data-kimi-task]")];
+const kimiRunTabs = document.querySelector("#kimi-run-tabs");
+const gptKimiVideo = document.querySelector("#gpt6-kimi-comparison-video");
+const kimiVideo = document.querySelector("#kimi-comparison-video");
+const gptKimiError = document.querySelector("#gpt6-kimi-comparison-error");
+const kimiVideoError = document.querySelector("#kimi-comparison-error");
+const kimiStatus = document.querySelector("#kimi-comparison-status");
+const kimiNote = document.querySelector("#kimi-comparison-note");
+
+function setKimiField(selector, value) {
+  kimiModule.querySelector(selector).textContent = value;
+}
+
+function loadKimiComparisonVideo(video, error, src) {
+  video.pause();
+  error.hidden = true;
+  video.src = `${src}?v=20260914-kimi-compare`;
+  video.load();
+}
+
+function selectKimiRun(taskKey, runKey) {
+  const run = kimiComparisonTasks[taskKey].runs.find((candidate) => candidate.key === runKey);
+  loadKimiComparisonVideo(kimiVideo, kimiVideoError, run.src);
+  setKimiField('[data-kimi-field="batch"]', run.batch);
+  setKimiField('[data-kimi-field="time"]', run.time);
+  setKimiField('[data-kimi-field="instruction"]', run.instruction);
+  setKimiField('[data-kimi-field="outcome"]', run.outcome);
+  kimiStatus.textContent = run.status;
+  kimiStatus.className = run.statusClass;
+  kimiNote.textContent = run.note;
+  [...kimiRunTabs.querySelectorAll("button")].forEach((button) => {
+    button.setAttribute("aria-selected", String(button.dataset.kimiRun === runKey));
+  });
+}
+
+function selectKimiTask(taskKey) {
+  const task = kimiComparisonTasks[taskKey];
+  setKimiField('[data-kimi-context-field="task"]', task.task);
+  setKimiField('[data-gpt-kimi-field="batch"]', task.gpt.batch);
+  setKimiField('[data-gpt-kimi-field="time"]', task.gpt.time);
+  setKimiField('[data-gpt-kimi-field="instruction"]', task.gpt.instruction);
+  loadKimiComparisonVideo(gptKimiVideo, gptKimiError, task.gpt.src);
+  kimiTaskButtons.forEach((button) => {
+    button.setAttribute("aria-selected", String(button.dataset.kimiTask === taskKey));
+  });
+  kimiRunTabs.replaceChildren(...task.runs.map((run) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.setAttribute("role", "tab");
+    button.setAttribute("aria-selected", "false");
+    button.dataset.kimiRun = run.key;
+    button.textContent = run.label;
+    button.addEventListener("click", () => selectKimiRun(taskKey, run.key));
+    return button;
+  }));
+  selectKimiRun(taskKey, task.runs[0].key);
+}
+
+kimiTaskButtons.forEach((button) => {
+  button.addEventListener("click", () => selectKimiTask(button.dataset.kimiTask));
+});
+gptKimiVideo.addEventListener("error", () => { gptKimiError.hidden = false; });
+gptKimiVideo.addEventListener("loadeddata", () => { gptKimiError.hidden = true; });
+kimiVideo.addEventListener("error", () => { kimiVideoError.hidden = false; });
+kimiVideo.addEventListener("loadeddata", () => { kimiVideoError.hidden = true; });
+selectKimiTask("remove");
+
 document.querySelectorAll("video").forEach((video) => {
   video.addEventListener("play", () => {
     document.querySelectorAll("video").forEach((other) => {
