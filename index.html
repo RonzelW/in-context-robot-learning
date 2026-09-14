@@ -285,46 +285,34 @@
                   <h3 id="kimi-comparison-title">Text-only comparison</h3>
                 </div>
               </div>
-              <div class="comparison-tabs comparison-task-tabs" role="tablist" aria-label="Kimi K3 comparison tasks">
-                <button type="button" role="tab" aria-selected="true" data-kimi-task="remove">Remove fruit</button>
-                <button type="button" role="tab" aria-selected="false" data-kimi-task="place">Place fruit</button>
-                <button type="button" role="tab" aria-selected="false" data-kimi-task="raise">Raise both arms</button>
-              </div>
-              <div class="comparison-context" aria-live="polite">
-                <span>Task</span><b data-kimi-context-field="task"></b>
+              <div class="comparison-context">
+                <span>Task</span><b>Remove fruit from the plate</b>
                 <span>Condition</span><b>Text only · no demonstration</b>
-              </div>
-              <div class="comparison-subcontrol">
-                <span>Kimi K3 run</span>
-                <div class="comparison-tabs" id="kimi-run-tabs" role="tablist" aria-label="Kimi K3 runs for selected task"></div>
               </div>
               <div class="comparison-grid">
                 <article class="comparison-card">
                   <header><span>GPT-6 Astra</span><strong class="result-success">Success</strong></header>
                   <div class="comparison-stage">
-                    <video id="gpt6-kimi-comparison-video" controls muted playsinline preload="metadata" data-playback="20× robot run"></video>
+                    <video controls muted playsinline preload="metadata" data-playback="20× robot run" src="assets/videos/gpt6-remove-fruit-head.mp4?v=20260915-remove-fruit-compare"></video>
                     <div class="video-overlay"><span>20&times; robot run</span><span>Head view</span></div>
-                    <p class="video-error" id="gpt6-kimi-comparison-error" hidden>Video could not be loaded.</p>
                   </div>
-                  <dl aria-live="polite">
-                    <div><dt>Elapsed</dt><dd data-gpt-kimi-field="time"></dd></div>
+                  <dl>
+                    <div><dt>Elapsed</dt><dd>208.2 s</dd></div>
                     <div><dt>Outcome</dt><dd>Task completed</dd></div>
                   </dl>
                 </article>
                 <article class="comparison-card kimi-comparison-card">
-                  <header><span>Kimi K3</span><strong id="kimi-comparison-status"></strong></header>
+                  <header><span>Kimi K3</span><strong class="result-failure">Failed</strong></header>
                   <div class="comparison-stage">
-                    <video id="kimi-comparison-video" controls muted playsinline preload="metadata" data-playback="20× robot run"></video>
+                    <video controls muted playsinline preload="metadata" data-playback="20× robot run" src="assets/videos/kimi-remove-consistent-head.mp4?v=20260915-remove-fruit-compare"></video>
                     <div class="video-overlay"><span>20&times; robot run</span><span>Head view</span></div>
-                    <p class="video-error" id="kimi-comparison-error" hidden>Video could not be loaded.</p>
                   </div>
-                  <dl aria-live="polite">
-                    <div><dt>Elapsed</dt><dd data-kimi-field="time"></dd></div>
-                    <div><dt>Outcome</dt><dd data-kimi-field="outcome"></dd></div>
+                  <dl>
+                    <div><dt>Elapsed</dt><dd>170.5 s</dd></div>
+                    <div><dt>Outcome</dt><dd>Interrupted → failed</dd></div>
                   </dl>
                 </article>
               </div>
-              <p class="comparison-callout" id="kimi-comparison-note" aria-live="polite" hidden></p>
             </section>
 
             <div class="configured-only">
@@ -412,6 +400,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260915-single-claude-run"></script>
+    <script src="script.js?v=20260915-single-kimi-run"></script>
   </body>
 </html>
