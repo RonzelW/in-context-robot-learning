@@ -44,8 +44,8 @@ const demoTasks = [
       duration: "Real time · 23.8 s"
     },
     configs: [
-      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "2 / 3", decisions: "76.7", time: "18.9 min", src: "assets/videos/towel-with-demo.mp4", poster: "assets/images/towel-with-human-poster.jpg", trial: "Experiment 1 · success", view: "Head view", usesReference: true },
-      { label: "Without video", model: "GPT-6 Astra", context: "No human demonstration", success: "0 / 3", decisions: "96.3", time: "24.6 min", src: "assets/videos/towel-no-demo.mp4", poster: "assets/images/towel-without-human-poster.jpg", trial: "Experiment 1 · give up", view: "Head view", usesReference: false }
+      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "2 / 3", decisions: "76.7", time: "18.9 min", src: "assets/videos/towel-with-demo.mp4", poster: "assets/images/towel-with-human-poster.jpg", trial: "Success", view: "Head view", usesReference: true },
+      { label: "Without human video", model: "GPT-6 Astra", context: "No human demonstration", success: "0 / 3", decisions: "96.3", time: "24.6 min", src: "assets/videos/towel-no-demo.mp4", poster: "assets/images/towel-without-human-poster.jpg", trial: "Gave up", view: "Head view", usesReference: false }
     ]
   },
   {
@@ -59,8 +59,8 @@ const demoTasks = [
       duration: "Real time · 12.0 s"
     },
     configs: [
-      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "3 / 3", decisions: "65.7", time: "16.9 min", src: "assets/videos/glue-with-demo.mp4", poster: "assets/images/glue-with-human-poster.jpg", trial: "Experiment 2 · success", view: "Head view", usesReference: true },
-      { label: "Without video", model: "GPT-6 Astra", context: "No human demonstration", success: "3 / 3", decisions: "49.3", time: "12.2 min", src: "assets/videos/glue-no-demo.mp4", poster: "assets/images/glue-without-human-poster.jpg", trial: "Experiment 3 · success", view: "Head view", usesReference: false }
+      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "3 / 3", decisions: "65.7", time: "16.9 min", src: "assets/videos/glue-with-demo.mp4", poster: "assets/images/glue-with-human-poster.jpg", trial: "Success", view: "Head view", usesReference: true },
+      { label: "Without human video", model: "GPT-6 Astra", context: "No human demonstration", success: "3 / 3", decisions: "49.3", time: "12.2 min", src: "assets/videos/glue-no-demo.mp4", poster: "assets/images/glue-without-human-poster.jpg", trial: "Success", view: "Head view", usesReference: false }
     ]
   },
   {
@@ -69,7 +69,7 @@ const demoTasks = [
     prompt: "Match the target image's T shape, including block colors, relative positions, and spacing.",
     targetImage: "assets/images/5cubes-in-T-shape.jpg?v=20260915-latest-target",
     configs: [
-      { label: "Goal image", model: "GPT-6 Astra", context: "Target image", success: "3 / 3", decisions: "59.3", time: "13.3 min", src: "assets/videos/blocks-t.mp4", poster: "assets/images/blocks-t-run-poster.jpg", trial: "Experiment 1 · success", view: "Head view" }
+      { label: "Goal image", model: "GPT-6 Astra", context: "Target image", success: "3 / 3", decisions: "59.3", time: "13.3 min", src: "assets/videos/blocks-t.mp4", poster: "assets/images/blocks-t-run-poster.jpg", trial: "Success", view: "Head view" }
     ]
   },
   {
@@ -78,7 +78,7 @@ const demoTasks = [
     prompt: "Reproduce the target layout using the same fruit identities, positions, and spacing.",
     targetImage: "assets/images/go-image-4fruits.jpg",
     configs: [
-      { label: "Goal image", model: "GPT-6 Astra", context: "Target image", success: "3 / 3", decisions: "49.0", time: "12.4 min", src: "assets/videos/fruit-layout.mp4", poster: "assets/images/fruit-layout-run-poster.jpg", trial: "Experiment 1 · success", view: "Head view" }
+      { label: "Goal image", model: "GPT-6 Astra", context: "Target image", success: "3 / 3", decisions: "49.0", time: "12.4 min", src: "assets/videos/fruit-layout.mp4", poster: "assets/images/fruit-layout-run-poster.jpg", trial: "Success", view: "Head view" }
     ]
   },
   {
@@ -86,7 +86,7 @@ const demoTasks = [
     title: "Find the plate and place the lemon",
     prompt: "Explore the scene, locate the pink plate, and place the lemon onto it.",
     configs: [
-      { label: "Self history", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "35.0", time: "8.1 min", src: "assets/videos/lemon-search.mp4", trial: "Experiment 1 · success", view: "Head view" }
+      { label: "Self history", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "35.0", time: "8.1 min", src: "assets/videos/lemon-search.mp4", trial: "Success", view: "Head view" }
     ]
   },
   {
@@ -94,8 +94,8 @@ const demoTasks = [
     title: "Movable exploration",
     prompt: "Search for the Sprite bottle by changing viewpoint or moving safe obstacles, then place it in the yellow basket.",
     configs: [
-      { label: "GPT-6 Astra", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "40.33", time: "25.53 min", src: "assets/videos/mobile-gpt6.mp4", trial: "Experiment 1 · success", view: "Head view", speed: "30× robot run" },
-      { label: "Claude Fable 5.1", model: "Claude Fable 5.1", context: "Interaction history", success: "1 / 3", decisions: "35.0", time: "20.79 min", src: "assets/videos/mobile-fable.mp4", trial: "Experiment 1 · failure", view: "Head view", speed: "30× robot run" }
+      { label: "GPT-6 Astra", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "40.33", time: "25.53 min", src: "assets/videos/mobile-gpt6.mp4", trial: "Success", view: "Head view", speed: "30× robot run" },
+      { label: "Claude Fable 5.1", model: "Claude Fable 5.1", context: "Interaction history", success: "1 / 3", decisions: "35.0", time: "20.79 min", src: "assets/videos/mobile-fable.mp4", trial: "Failure", view: "Head view", speed: "30× robot run" }
     ]
   },
   {
@@ -103,7 +103,7 @@ const demoTasks = [
     title: "Play tic-tac-toe",
     prompt: "Track the live board and human moves, obey turn-taking, and choose a legal winning or blocking move.",
     configs: [
-      { label: "Live interaction", model: "GPT-6 Astra", context: "Online interaction", success: "3 / 3", decisions: "69.7", time: "13.6 min", src: "assets/videos/tic-tac-toe.mp4", trial: "Experiment 1 · success", view: "Head view" }
+      { label: "Live interaction", model: "GPT-6 Astra", context: "Online interaction", success: "3 / 3", decisions: "69.7", time: "13.6 min", src: "assets/videos/tic-tac-toe.mp4", trial: "Success", view: "Head view" }
     ]
   },
   {
@@ -111,7 +111,7 @@ const demoTasks = [
     title: "Pick the pointed fruit",
     prompt: "Wait for a human gesture, then pick the indicated fruit and place it on the plate.",
     configs: [
-      { label: "Live interaction", model: "GPT-6 Astra", context: "Online interaction", success: "3 / 3", decisions: "67.3", time: "15.0 min", src: "assets/videos/pointed-fruit.mp4", trial: "Experiment 1 · success", view: "Head view" }
+      { label: "Live interaction", model: "GPT-6 Astra", context: "Online interaction", success: "3 / 3", decisions: "67.3", time: "15.0 min", src: "assets/videos/pointed-fruit.mp4", trial: "Success", view: "Head view" }
     ]
   }
 ];
