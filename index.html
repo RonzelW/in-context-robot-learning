@@ -278,6 +278,57 @@
               </p>
             </section>
 
+            <section class="model-comparison" aria-labelledby="self-history-comparison-title">
+              <div class="comparison-heading">
+                <div>
+                  <p class="section-kicker">Matched self-history comparison</p>
+                  <h3 id="self-history-comparison-title">Movable exploration across general agents</h3>
+                </div>
+                <p>
+                  GPT-6 Astra and Claude Fable 5.1 receive the same task and retain their own
+                  interaction histories while exploring the scene. The representative head-camera
+                  runs are shown side by side.
+                </p>
+              </div>
+              <div class="comparison-context">
+                <span>Task</span><b>Find the Sprite bottle and place it in the yellow basket</b>
+                <span>Context</span><b>Self-interaction history</b>
+                <span>View</span><b>Head camera</b>
+              </div>
+              <div class="comparison-grid">
+                <article class="comparison-card">
+                  <header><span>GPT-6 Astra</span><strong class="result-success">3 / 3 success</strong></header>
+                  <div class="comparison-stage">
+                    <video controls muted playsinline preload="metadata" data-playback="30× robot run" src="assets/videos/mobile-gpt6.mp4?v=20260915-self-history-compare"></video>
+                    <div class="video-overlay"><span>30&times; robot run</span><span>Head view</span></div>
+                  </div>
+                  <dl>
+                    <div><dt>Context</dt><dd>Interaction history</dd></div>
+                    <div><dt>Mean decisions</dt><dd>40.33</dd></div>
+                    <div><dt>Mean time</dt><dd>25.53 min</dd></div>
+                    <div><dt>Shown run</dt><dd>Success</dd></div>
+                  </dl>
+                </article>
+                <article class="comparison-card">
+                  <header><span>Claude Fable 5.1</span><strong class="result-failure">1 / 3 success</strong></header>
+                  <div class="comparison-stage">
+                    <video controls muted playsinline preload="metadata" data-playback="30× robot run" src="assets/videos/mobile-fable.mp4?v=20260915-self-history-compare"></video>
+                    <div class="video-overlay"><span>30&times; robot run</span><span>Head view</span></div>
+                  </div>
+                  <dl>
+                    <div><dt>Context</dt><dd>Interaction history</dd></div>
+                    <div><dt>Mean decisions</dt><dd>35.0</dd></div>
+                    <div><dt>Mean time</dt><dd>20.79 min</dd></div>
+                    <div><dt>Shown run</dt><dd>Failure</dd></div>
+                  </dl>
+                </article>
+              </div>
+              <p class="comparison-note">
+                This is a qualitative comparison of representative runs under the same task family,
+                not an aggregate model ranking.
+              </p>
+            </section>
+
             <section class="model-comparison kimi-comparison" aria-labelledby="kimi-comparison-title">
               <div class="comparison-heading">
                 <div>
@@ -426,6 +477,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260915-no-top-nav"></script>
+    <script src="script.js?v=20260915-split-self-history"></script>
   </body>
 </html>

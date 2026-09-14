@@ -94,8 +94,7 @@ const demoTasks = [
     title: "Movable exploration",
     prompt: "Search for the Sprite bottle by changing viewpoint or moving safe obstacles, then place it in the yellow basket.",
     configs: [
-      { label: "GPT-6 Astra", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "40.33", time: "25.53 min", src: "assets/videos/mobile-gpt6.mp4", trial: "Success", view: "Head view", speed: "30× robot run" },
-      { label: "Claude Fable 5.1", model: "Claude Fable 5.1", context: "Interaction history", success: "1 / 3", decisions: "35.0", time: "20.79 min", src: "assets/videos/mobile-fable.mp4", trial: "Failure", view: "Head view", speed: "30× robot run" }
+      { label: "GPT-6 Astra", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "40.33", time: "25.53 min", src: "assets/videos/mobile-gpt6.mp4", trial: "Success", view: "Head view", speed: "30× robot run" }
     ]
   },
   {
@@ -267,6 +266,7 @@ const contextFamilyDetails = {
 function renderContextFamilyGroup(tasks, startIndex) {
   const family = tasks[0].family;
   const details = contextFamilyDetails[family];
+  const isSingleTask = tasks.length === 1;
   const group = document.createElement("article");
   group.className = "demo-rollout-group context-family-group";
   group.dataset.family = family;
@@ -288,11 +288,11 @@ function renderContextFamilyGroup(tasks, startIndex) {
         </div>
         <figcaption aria-live="polite">
           <div class="rollout-caption-head">
-            <h4><span class="demo-index">${String(startIndex + taskOffset + 1).padStart(2, "0")}</span>${task.title}</h4>
+            <h4><span class="demo-index">${String(startIndex + taskOffset + 1).padStart(2, "0")}</span>${isSingleTask ? task.configs[0].model : task.title}</h4>
             <span class="rollout-result" data-field="success"></span>
           </div>
           <p class="rollout-model" data-field="model"></p>
-          <p class="rollout-task-copy">${task.prompt}</p>
+          ${isSingleTask ? "" : `<p class="rollout-task-copy">${task.prompt}</p>`}
           <p class="rollout-detail" data-field="detail"></p>
           ${tabs}
         </figcaption>
@@ -302,9 +302,9 @@ function renderContextFamilyGroup(tasks, startIndex) {
   group.innerHTML = `
     <header class="rollout-group-head">
       <div class="rollout-group-title">
-        <p class="rollout-kicker"><span class="demo-index">${String(startIndex + 1).padStart(2, "0")}&ndash;${String(startIndex + tasks.length).padStart(2, "0")}</span>${family}</p>
-        <h3>${details.title}</h3>
-        <p>${details.description}</p>
+        <p class="rollout-kicker"><span class="demo-index">${isSingleTask ? String(startIndex + 1).padStart(2, "0") : `${String(startIndex + 1).padStart(2, "0")}&ndash;${String(startIndex + tasks.length).padStart(2, "0")}`}</span>${family}</p>
+        <h3>${isSingleTask ? tasks[0].title : details.title}</h3>
+        <p>${isSingleTask ? tasks[0].prompt : details.description}</p>
       </div>
       <span class="clip-count">${tasks.length} clips</span>
     </header>
@@ -330,7 +330,7 @@ function renderContextFamilyGroup(tasks, startIndex) {
       const result = card.querySelector('[data-field="success"]');
       result.textContent = `${config.success} success`;
       result.className = `rollout-result ${statusClass(config.success)}`;
-      card.querySelector('[data-field="model"]').textContent = `${config.model} · ${config.context}`;
+      card.querySelector('[data-field="model"]').textContent = isSingleTask ? config.context : `${config.model} · ${config.context}`;
       card.querySelector('[data-field="detail"]').textContent = `${config.decisions} mean decisions · ${config.time} · ${config.trial}`;
       card.querySelector(".speed-badge").textContent = config.speed || "20× robot run";
       card.querySelector(".view-badge").textContent = config.view;
@@ -368,12 +368,13 @@ demoTasks.slice(0, 4).forEach((task, index) => {
     : renderGoalImageTask(task, index));
 });
 
-const remainingFamilies = Object.groupBy
-  ? Object.values(Object.groupBy(demoTasks.slice(4), (task) => task.family))
-  : [...new Set(demoTasks.slice(4).map((task) => task.family))]
-      .map((family) => demoTasks.slice(4).filter((task) => task.family === family));
 let remainingTaskIndex = 4;
-remainingFamilies.forEach((tasks) => {
+const remainingGroups = [
+  [demoTasks[4]],
+  [demoTasks[5]],
+  demoTasks.slice(6)
+];
+remainingGroups.forEach((tasks) => {
   demoGrid.appendChild(renderContextFamilyGroup(tasks, remainingTaskIndex));
   remainingTaskIndex += tasks.length;
 });
