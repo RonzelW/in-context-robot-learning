@@ -225,9 +225,9 @@ td:nth-child(n+3) { font-family: ui-monospace, monospace; }
 .model-comparison { margin-top: 54px; padding: 48px 0 8px; border-top: 1px solid var(--line); }
 .comparison-heading { display: block; }
 .comparison-heading h3 { margin: 10px 0 0; font-size: 30px; letter-spacing: -.045em; }
-.comparison-context { display: grid; grid-template-columns: auto minmax(0, 2fr) auto minmax(0, 1fr); gap: 8px 12px; margin-top: 22px; padding: 12px 0; border-block: 1px solid var(--line); }
-.comparison-context span { color: #858d98; font: 700 8px ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
-.comparison-context b { color: #38414e; font-size: 10px; }
+.comparison-context { display: grid; grid-template-columns: auto minmax(0, 2fr) auto minmax(0, 1fr); gap: 8px 12px; align-items: baseline; margin-top: 22px; padding: 12px 0; border-block: 1px solid var(--line); }
+.comparison-context span { color: #858d98; font: 700 8px/1.4 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+.comparison-context b { color: #38414e; font-size: 10px; line-height: 1.4; }
 .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
 .comparison-card { min-width: 0; }
 .comparison-card header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
