@@ -134,7 +134,7 @@ h1 span { display: block; white-space: nowrap; }
 }
 
 .context-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 18px; margin-top: 45px; }
-.context-card { --accent: var(--blue); position: relative; isolation: isolate; grid-column: span 2; display: flex; flex-direction: column; min-width: 0; min-height: 318px; padding: 24px 23px 21px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 10px 30px -30px rgba(17, 24, 39, .45); transition: transform 360ms cubic-bezier(.2,.75,.2,1), border-color 360ms ease, box-shadow 360ms ease; }
+.context-card { --accent: var(--blue); position: relative; isolation: isolate; grid-column: span 2; display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 26px 24px 23px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 10px 30px -30px rgba(17, 24, 39, .45); transition: transform 360ms cubic-bezier(.2,.75,.2,1), border-color 360ms ease, box-shadow 360ms ease; }
 .context-card:nth-child(4) { grid-column: 2 / span 2; }
 .context-card::before { position: absolute; top: 0; right: 0; left: 0; height: 3px; background: var(--accent); content: ""; transform: scaleX(.34); transform-origin: left; transition: transform 420ms cubic-bezier(.2,.75,.2,1); }
 .context-card::after { position: absolute; z-index: -1; inset: 0; background: radial-gradient(circle at 82% 8%, color-mix(in srgb, var(--accent) 14%, transparent) 0, transparent 48%), linear-gradient(145deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent 58%); content: ""; opacity: 0; transition: opacity 360ms ease; }
@@ -143,12 +143,12 @@ h1 span { display: block; white-space: nowrap; }
 .context-card.green { --accent: var(--green); }
 .context-card.orange { --accent: var(--orange); }
 .context-card.pink { --accent: var(--pink); }
-.context-card header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 32px; }
+.context-card header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 28px; }
 .card-number { color: color-mix(in srgb, var(--accent) 58%, #a1a7b1); font: 620 13px/1 "Geist", Inter, ui-sans-serif, sans-serif; transition: color 320ms ease, transform 420ms cubic-bezier(.2,.75,.2,1); }
 .card-label { margin: 0; color: var(--accent); font: 620 11px/1.2 "Geist", Inter, ui-sans-serif, sans-serif; letter-spacing: .01em; }
-.context-card h3 { min-height: 0; margin: 0 0 13px; font-size: clamp(17px, 1.55vw, 20px); line-height: 1.14; letter-spacing: -.035em; white-space: nowrap; }
-.context-card > p { margin: 0; color: #666c76; font-size: 13px; line-height: 1.58; text-align: justify; text-align-last: left; text-justify: inter-word; hyphens: auto; }
-.context-card ul { display: flex; flex-wrap: wrap; gap: 6px; margin: auto 0 0; padding: 18px 0 0; border-top: 1px solid #e7e9ed; list-style: none; }
+.context-card h3 { min-height: 0; margin: 0 0 14px; font-size: clamp(18px, 1.7vw, 22px); line-height: 1.14; letter-spacing: -.035em; white-space: nowrap; }
+.context-card > p { margin: 0; color: #626a75; font-size: 14px; line-height: 1.62; text-align: justify; text-align-last: left; text-justify: inter-word; hyphens: auto; }
+.context-card ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 24px 0 0; padding: 16px 0 0; border-top: 1px solid #e7e9ed; list-style: none; }
 .context-card li { display: inline-flex; align-items: center; gap: 6px; padding: 5px 7px; border: 1px solid var(--line); border-radius: 5px; background: #f7f8fa; color: #4f5661; font-size: 10px; font-weight: 560; line-height: 1.2; transition: color 280ms ease, border-color 280ms ease, background-color 280ms ease, transform 320ms cubic-bezier(.2,.75,.2,1); }
 .context-card li::before { width: 4px; height: 4px; flex: 0 0 auto; border-radius: 50%; background: var(--accent); content: ""; opacity: 0; transform: scale(0); transition: opacity 240ms ease, transform 320ms cubic-bezier(.2,.75,.2,1); }
 
@@ -363,7 +363,7 @@ footer { border-top: 1px solid var(--line); background: var(--soft); }
   .contents { position: static; flex-direction: row; flex-wrap: wrap; padding-top: 30px; }
   .contents p { width: 100%; }
   .context-grid { display: flex; gap: 14px; overflow-x: auto; padding: 2px 2px 18px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
-  .context-card { flex: 0 0 min(300px, 82vw); min-height: 310px; scroll-snap-align: start; }
+  .context-card { flex: 0 0 min(300px, 82vw); min-height: 0; scroll-snap-align: start; }
   .pipeline { grid-template-columns: 1fr 1fr; }
   .demo-grid { grid-template-columns: 1fr; }
   .demo-rollout-group[data-clips] .rollout-card { flex-basis: min(420px, 78vw); }
