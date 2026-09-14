@@ -372,7 +372,8 @@ let remainingTaskIndex = 4;
 const remainingGroups = [
   [demoTasks[4]],
   [demoTasks[5]],
-  demoTasks.slice(6)
+  [demoTasks[6]],
+  [demoTasks[7]]
 ];
 remainingGroups.forEach((tasks) => {
   demoGrid.appendChild(renderContextFamilyGroup(tasks, remainingTaskIndex));
