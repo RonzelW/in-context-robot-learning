@@ -89,8 +89,8 @@ h1 span { display: block; white-space: nowrap; }
 .frame-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 .frame-grid figure { margin: 0; }
 .frame-grid img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; filter: saturate(.88) contrast(1.02); }
-.frame-grid figcaption { display: flex; gap: 10px; margin-top: 10px; font-size: 12px; font-weight: 600; }
-.frame-grid figcaption span { color: #9aa0aa; font: 10px ui-monospace, monospace; }
+.frame-grid figcaption { display: flex; align-items: center; gap: 9px; min-height: 18px; margin-top: 10px; font-size: 12px; font-weight: 600; line-height: 1.2; }
+.frame-grid figcaption span { display: inline-flex; align-items: center; color: #9299a4; font: 600 11px/1 "Geist", Inter, ui-sans-serif, sans-serif; letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
 .figure-caption, .method-figure figcaption { max-width: 860px; margin: 25px auto 0; color: #666c78; font: 13px/1.55 ui-monospace, monospace; }
 
 .content-layout { display: grid; grid-template-columns: 165px minmax(0, 1fr); gap: 70px; padding-bottom: 100px; }
@@ -314,6 +314,16 @@ th,
 .comparison-note,
 .demo-source-note {
   font-family: "Geist", Inter, ui-sans-serif, sans-serif;
+}
+
+.context-card::after,
+.card-number,
+.pipeline span,
+.demo-index,
+.finding-list article::after {
+  font-family: "Geist", Inter, ui-sans-serif, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
 }
 
 footer { border-top: 1px solid var(--line); background: var(--soft); }
