@@ -306,7 +306,7 @@ function renderContextFamilyGroup(tasks, startIndex) {
         <h3>${isSingleTask ? tasks[0].title : details.title}</h3>
         <p>${isSingleTask ? tasks[0].prompt : details.description}</p>
       </div>
-      <span class="clip-count">${tasks.length} clips</span>
+      <span class="clip-count">${tasks.length} ${tasks.length === 1 ? "clip" : "clips"}</span>
     </header>
     <div class="rollout-rail-wrap">
       <button class="rollout-nav previous" type="button" aria-label="Show previous clips"><span aria-hidden="true">&#8249;</span></button>
