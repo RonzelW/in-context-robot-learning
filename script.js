@@ -37,7 +37,13 @@ const demoTasks = [
     family: "Human video",
     title: "Pick up a red towel",
     prompt: "Imitate the demonstrated two-hand grasp and lift the red towel with the robot's right hand.",
-    reference: { src: "assets/videos/towel-reference.mp4", label: "Human egocentric demonstration", duration: "Real time" },
+    reference: {
+      src: "assets/videos/towel-reference.mp4?v=20260914-human-source",
+      poster: "assets/images/towel-human-poster.jpg",
+      label: "Original human video",
+      source: "towel2026-09-11_124214_980.mp4",
+      duration: "Real time · 23.8 s"
+    },
     configs: [
       { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "2 / 3", decisions: "76.7", time: "18.9 min", src: "assets/videos/towel-with-demo.mp4", trial: "Experiment 1 · success", view: "Head view", usesReference: true },
       { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "0 / 3", decisions: "96.3", time: "24.6 min", src: "assets/videos/towel-no-demo.mp4", trial: "Experiment 1 · give up", view: "Head view", usesReference: false }
@@ -47,7 +53,13 @@ const demoTasks = [
     family: "Human video",
     title: "Remove a glue-stick cap",
     prompt: "Use the observed pulling procedure to separate the cap from the glue stick.",
-    reference: { src: "assets/videos/glue-reference.mp4", label: "Human demonstration", duration: "Real time" },
+    reference: {
+      src: "assets/videos/glue-reference.mp4?v=20260914-human-source",
+      poster: "assets/images/glue-human-poster.jpg",
+      label: "Original human video",
+      source: "pull_off_gule.mp4",
+      duration: "Real time · 12.0 s"
+    },
     configs: [
       { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "3 / 3", decisions: "65.7", time: "16.9 min", src: "assets/videos/glue-with-demo.mp4", trial: "Experiment 2 · success", view: "Head view", usesReference: true },
       { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "3 / 3", decisions: "49.3", time: "12.2 min", src: "assets/videos/glue-no-demo.mp4", trial: "Experiment 3 · success", view: "Head view", usesReference: false }
@@ -132,9 +144,10 @@ function renderDemoCard(task, taskIndex) {
     <details class="reference-demo">
       <summary><span>Conditioning clip</span><b>${task.reference.label}</b></summary>
       <div class="reference-video-wrap">
-        <video controls muted playsinline preload="metadata" src="${task.reference.src}"></video>
+        <video controls muted playsinline preload="metadata" poster="${task.reference.poster}" src="${task.reference.src}"></video>
         <span>${task.reference.duration}</span>
       </div>
+      <p class="reference-source"><span>Source</span><code>${task.reference.source}</code></p>
     </details>` : "";
 
   card.innerHTML = `
