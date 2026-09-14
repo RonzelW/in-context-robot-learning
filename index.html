@@ -9,9 +9,18 @@
     />
     <meta name="theme-color" content="#f7f8fa" />
     <title>In-Context Robot Learning with General Agents</title>
-    <link rel="stylesheet" href="styles.css?v=20260915-pointed-fruit-summary" />
+    <link rel="stylesheet" href="styles.css?v=20260915-bilingual-toggle" />
   </head>
   <body id="top">
+    <button class="language-toggle" id="language-toggle" type="button" aria-label="Switch to Chinese" title="Switch to Chinese">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M3 12h18M12 3c2.25 2.46 3.4 5.46 3.4 9s-1.15 6.54-3.4 9c-2.25-2.46-3.4-5.46-3.4-9S9.75 5.46 12 3Z"></path>
+      </svg>
+      <span class="language-option language-en">EN</span>
+      <span class="language-divider" aria-hidden="true"></span>
+      <span class="language-option language-zh">中</span>
+    </button>
     <div class="entry" id="entry" aria-hidden="true">
       <div class="entry-mark">
         <div class="entry-cube" aria-hidden="true">
@@ -383,6 +392,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260915-pointed-fruit-summary"></script>
+    <script src="script.js?v=20260915-bilingual-toggle"></script>
   </body>
 </html>
