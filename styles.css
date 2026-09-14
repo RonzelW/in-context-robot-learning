@@ -253,7 +253,7 @@ td:nth-child(n+3) { font-family: ui-monospace, monospace; }
 .finding-list p { max-width: 680px; margin: 0; color: #666c78; font-size: 14px; line-height: 1.55; }
 .split-section { display: block; }
 .split-section h2 { font-size: inherit; }
-.discussion-copy { max-width: 760px; padding-top: 34px; }
+.discussion-copy { width: 100%; max-width: none; padding-top: 34px; }
 .discussion-copy p { margin: 0 0 24px; color: #515762; font-size: 16px; line-height: 1.7; }
 .code-block { position: relative; margin-top: 40px; border: 1px solid var(--line); background: #f7f8fa; }
 .code-block button { position: absolute; top: 14px; right: 14px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 4px; background: white; color: #454b55; font: 700 9px ui-monospace, monospace; cursor: pointer; text-transform: uppercase; }
