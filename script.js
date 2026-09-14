@@ -288,7 +288,7 @@ function renderContextFamilyGroup(tasks, startIndex) {
         </div>
         <figcaption aria-live="polite">
           <div class="rollout-caption-head">
-            <h4><span class="demo-index">${String(startIndex + taskOffset + 1).padStart(2, "0")}</span>${isSingleTask ? task.configs[0].model : task.title}</h4>
+            <h4>${isSingleTask ? "Evaluation run" : task.title}</h4>
             <span class="rollout-result" data-field="success"></span>
           </div>
           <p class="rollout-model" data-field="model"></p>
@@ -330,7 +330,7 @@ function renderContextFamilyGroup(tasks, startIndex) {
       const result = card.querySelector('[data-field="success"]');
       result.textContent = `${config.success} success`;
       result.className = `rollout-result ${statusClass(config.success)}`;
-      card.querySelector('[data-field="model"]').textContent = isSingleTask ? config.context : `${config.model} · ${config.context}`;
+      card.querySelector('[data-field="model"]').textContent = `${config.model} · ${config.context}`;
       card.querySelector('[data-field="detail"]').textContent = `${config.decisions} mean decisions · ${config.time} · ${config.trial}`;
       card.querySelector(".speed-badge").textContent = config.speed || "20× robot run";
       card.querySelector(".view-badge").textContent = config.view;
