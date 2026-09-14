@@ -153,7 +153,7 @@ tbody tr { transition: background 150ms ease; }
 tbody tr:hover, tbody tr.highlight:hover { background: #edf3fc; }
 tbody tr.highlight { background: #f7faff; }
 td:nth-child(n+3) { font-family: ui-monospace, monospace; }
-.table-note { color: #7b818c; font: 11px/1.55 ui-monospace, monospace; }
+.table-note { margin: 14px 0 0; color: #7b818c; font: 11px/1.55 ui-monospace, monospace; }
 .demo-section { --demo-blue: #275da8; }
 .demo-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 32px; padding: 15px 0; border-block: 1px solid var(--line); color: #68707b; font: 10px ui-monospace, monospace; letter-spacing: .04em; text-transform: uppercase; }
 .demo-legend span { display: inline-flex; align-items: center; gap: 8px; }
