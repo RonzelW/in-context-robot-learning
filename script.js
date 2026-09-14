@@ -132,97 +132,125 @@ function statusClass(success) {
   return "high";
 }
 
-function renderHumanVideoTask(task, taskIndex) {
-  const card = document.createElement("article");
-  card.className = "human-demo-task";
-  card.dataset.family = task.family;
+function activateRolloutRail(group) {
+  const rail = group.querySelector(".rollout-rail");
+  const previous = group.querySelector(".rollout-nav.previous");
+  const next = group.querySelector(".rollout-nav.next");
 
-  const resultPanels = task.configs.map((config, index) => `
-    <article class="human-video-panel result-panel">
-      <header><span>0${index + 2} · Robot rollout</span><h4>${config.label}</h4></header>
-      <div class="human-video-stage">
+  function updateControls() {
+    const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    previous.disabled = rail.scrollLeft <= 3;
+    next.disabled = rail.scrollLeft >= maxScroll - 3;
+  }
+
+  previous.addEventListener("click", () => rail.scrollBy({ left: -rail.clientWidth * .82, behavior: "smooth" }));
+  next.addEventListener("click", () => rail.scrollBy({ left: rail.clientWidth * .82, behavior: "smooth" }));
+  rail.addEventListener("scroll", updateControls, { passive: true });
+  if ("ResizeObserver" in window) new ResizeObserver(updateControls).observe(rail);
+  window.requestAnimationFrame(updateControls);
+}
+
+function renderHumanVideoTask(task, taskIndex) {
+  const group = document.createElement("article");
+  group.className = "demo-rollout-group";
+  group.dataset.family = task.family;
+  group.dataset.clips = String(task.configs.length + 1);
+
+  const resultClips = task.configs.map((config) => `
+    <figure class="rollout-card">
+      <div class="rollout-media">
         <video controls muted playsinline preload="metadata" poster="${config.poster}" src="${config.src}?v=20260914-head"></video>
         <div class="video-overlay"><span>${config.speed || "20× robot run"}</span><span>${config.view}</span></div>
       </div>
-      <dl class="human-panel-meta">
-        <div><dt>Model</dt><dd>${config.model}</dd></div>
-        <div><dt>Success</dt><dd class="success-value ${statusClass(config.success)}">${config.success}</dd></div>
-        <div><dt>Mean decisions</dt><dd>${config.decisions}</dd></div>
-        <div><dt>Mean time</dt><dd>${config.time}</dd></div>
-        <div class="wide"><dt>Shown run</dt><dd>${config.trial}</dd></div>
-      </dl>
-    </article>`).join("");
+      <figcaption>
+        <div class="rollout-caption-head"><h4>${config.label}</h4><span class="rollout-result ${statusClass(config.success)}">${config.success} success</span></div>
+        <p>${config.model} · ${config.context}</p>
+        <p class="rollout-detail">${config.decisions} mean decisions · ${config.time} · ${config.trial}</p>
+      </figcaption>
+    </figure>`).join("");
 
-  card.innerHTML = `
-    <header class="human-demo-task-head">
-      <div><span class="demo-index">${String(taskIndex + 1).padStart(2, "0")}</span><span class="demo-family">${task.family}</span></div>
-      <h3>${task.title}</h3>
-      <p>${task.prompt}</p>
+  group.innerHTML = `
+    <header class="rollout-group-head">
+      <div class="rollout-group-title">
+        <p class="rollout-kicker"><span class="demo-index">${String(taskIndex + 1).padStart(2, "0")}</span>${task.family}</p>
+        <h3>${task.title}</h3>
+        <p>${task.prompt}</p>
+      </div>
+      <span class="clip-count">${task.configs.length + 1} clips</span>
     </header>
-    <div class="human-video-strip" aria-label="${task.title}: demonstration and conditioning comparison">
-      <article class="human-video-panel reference-panel">
-        <header><span>01 · Conditioning input</span><h4>Human demonstration</h4></header>
-        <div class="human-video-stage">
-          <video controls muted playsinline preload="metadata" poster="${task.reference.poster}" src="${task.reference.src}"></video>
-          <div class="video-overlay"><span>${task.reference.duration}</span><span>First-person view</span></div>
-        </div>
-        <dl class="human-panel-meta reference-meta">
-          <div><dt>Role</dt><dd>Conditioning input</dd></div>
-          <div><dt>Playback</dt><dd>Real time</dd></div>
-        </dl>
-      </article>
-      ${resultPanels}
+    <div class="rollout-rail-wrap">
+      <button class="rollout-nav previous" type="button" aria-label="Show previous clips"><span aria-hidden="true">&#8249;</span></button>
+      <div class="rollout-rail" aria-label="${task.title}: demonstration and conditioning comparison">
+        <figure class="rollout-card">
+          <div class="rollout-media">
+            <video controls muted playsinline preload="metadata" poster="${task.reference.poster}" src="${task.reference.src}"></video>
+            <div class="video-overlay"><span>${task.reference.duration}</span><span>First-person view</span></div>
+          </div>
+          <figcaption>
+            <div class="rollout-caption-head"><h4>Human demonstration</h4><span class="rollout-input">Conditioning input</span></div>
+            <p>First-person view · Real-time playback</p>
+          </figcaption>
+        </figure>
+        ${resultClips}
+      </div>
+      <button class="rollout-nav next" type="button" aria-label="Show more clips"><span aria-hidden="true">&#8250;</span></button>
     </div>`;
 
-  card.querySelectorAll("video").forEach((video) => {
-    video.addEventListener("error", () => video.closest(".human-video-stage").classList.add("video-load-failed"));
+  group.querySelectorAll("video").forEach((video) => {
+    video.addEventListener("error", () => video.closest(".rollout-media").classList.add("video-load-failed"));
   });
-  return card;
+  activateRolloutRail(group);
+  return group;
 }
 
 function renderGoalImageTask(task, taskIndex) {
   const config = task.configs[0];
-  const card = document.createElement("article");
-  card.className = "human-demo-task goal-image-task";
-  card.dataset.family = task.family;
+  const group = document.createElement("article");
+  group.className = "demo-rollout-group goal-image-group";
+  group.dataset.family = task.family;
+  group.dataset.clips = "2";
 
-  card.innerHTML = `
-    <header class="human-demo-task-head">
-      <div><span class="demo-index">${String(taskIndex + 1).padStart(2, "0")}</span><span class="demo-family">${task.family}</span></div>
-      <h3>${task.title}</h3>
-      <p>${task.prompt}</p>
+  group.innerHTML = `
+    <header class="rollout-group-head">
+      <div class="rollout-group-title">
+        <p class="rollout-kicker"><span class="demo-index">${String(taskIndex + 1).padStart(2, "0")}</span>${task.family}</p>
+        <h3>${task.title}</h3>
+        <p>${task.prompt}</p>
+      </div>
+      <span class="clip-count">2 clips</span>
     </header>
-    <div class="human-video-strip goal-image-strip" aria-label="${task.title}: target image and robot rollout">
-      <article class="human-video-panel target-image-panel">
-        <header><span>01 · Conditioning input</span><h4>Target image</h4></header>
-        <div class="human-video-stage goal-image-stage">
-          <img src="${task.targetImage}" alt="Target arrangement for ${task.title.toLowerCase()}" />
-        </div>
-        <dl class="human-panel-meta reference-meta">
-          <div><dt>Role</dt><dd>Conditioning input</dd></div>
-          <div><dt>Format</dt><dd>Goal image</dd></div>
-        </dl>
-      </article>
-      <article class="human-video-panel result-panel">
-        <header><span>02 · Robot rollout</span><h4>Evaluation run</h4></header>
-        <div class="human-video-stage">
-          <video controls muted playsinline preload="metadata" poster="${config.poster}" src="${config.src}?v=20260914-goal-image"></video>
-          <div class="video-overlay"><span>${config.speed || "20× robot run"}</span><span>${config.view}</span></div>
-        </div>
-        <dl class="human-panel-meta">
-          <div><dt>Model</dt><dd>${config.model}</dd></div>
-          <div><dt>Success</dt><dd class="success-value ${statusClass(config.success)}">${config.success}</dd></div>
-          <div><dt>Mean decisions</dt><dd>${config.decisions}</dd></div>
-          <div><dt>Mean time</dt><dd>${config.time}</dd></div>
-          <div class="wide"><dt>Shown run</dt><dd>${config.trial}</dd></div>
-        </dl>
-      </article>
+    <div class="rollout-rail-wrap">
+      <button class="rollout-nav previous" type="button" aria-label="Show previous clips"><span aria-hidden="true">&#8249;</span></button>
+      <div class="rollout-rail" aria-label="${task.title}: target image and robot rollout">
+        <figure class="rollout-card">
+          <div class="rollout-media goal-image-media">
+            <img src="${task.targetImage}" alt="Target arrangement for ${task.title.toLowerCase()}" />
+          </div>
+          <figcaption>
+            <div class="rollout-caption-head"><h4>Target image</h4><span class="rollout-input">Conditioning input</span></div>
+            <p>Goal-state reference</p>
+          </figcaption>
+        </figure>
+        <figure class="rollout-card">
+          <div class="rollout-media">
+            <video controls muted playsinline preload="metadata" poster="${config.poster}" src="${config.src}?v=20260914-goal-image"></video>
+            <div class="video-overlay"><span>${config.speed || "20× robot run"}</span><span>${config.view}</span></div>
+          </div>
+          <figcaption>
+            <div class="rollout-caption-head"><h4>Evaluation run</h4><span class="rollout-result ${statusClass(config.success)}">${config.success} success</span></div>
+            <p>${config.model} · ${config.context}</p>
+            <p class="rollout-detail">${config.decisions} mean decisions · ${config.time} · ${config.trial}</p>
+          </figcaption>
+        </figure>
+      </div>
+      <button class="rollout-nav next" type="button" aria-label="Show more clips"><span aria-hidden="true">&#8250;</span></button>
     </div>`;
 
-  card.querySelector("video").addEventListener("error", (event) => {
-    event.currentTarget.closest(".human-video-stage").classList.add("video-load-failed");
+  group.querySelector("video").addEventListener("error", (event) => {
+    event.currentTarget.closest(".rollout-media").classList.add("video-load-failed");
   });
-  return card;
+  activateRolloutRail(group);
+  return group;
 }
 
 function renderDemoCard(task, taskIndex) {
