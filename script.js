@@ -115,15 +115,7 @@ const demoTasks = [
   }
 ];
 
-const configuredTasks = [
-  { title: "Imitate a hand dance", family: "Human video", configs: ["GPT-6 Astra · with video", "Claude Fable 5.1 · with video", "GPT-6 Astra · no video", "Claude Fable 5.1 · no video"], note: "A source path is recorded, but no downloadable result video is attached." },
-  { title: "Unscrew a bottle cap", family: "Robot demonstration", configs: ["GPT-6 Astra / Claude Fable 5.1 · no demonstration", "GPT-6 Astra / Claude Fable 5.1 · robot video", "GPT-6 Astra / Claude Fable 5.1 · video + actions"], note: "Three robot-context conditions are configured; results are not yet attached." },
-  { title: "Insert a plug", family: "Robot demonstration", configs: ["GPT-6 Astra / Claude Fable 5.1 · no demonstration", "GPT-6 Astra / Claude Fable 5.1 · robot video", "GPT-6 Astra / Claude Fable 5.1 · video + actions"], note: "Three robot-context conditions are configured; results are not yet attached." },
-  { title: "Tissue-box self-correction", family: "Self history", configs: ["GPT-6 Astra · interaction history", "Claude Fable 5.1 · interaction history"], note: "The task prompt is present; no result media is attached." }
-];
-
 const demoGrid = document.querySelector("#demo-grid");
-const configuredGrid = document.querySelector("#configured-grid");
 
 function statusClass(success) {
   if (/^(0|1)\s*\/\s*3/.test(success)) return "low";
@@ -378,17 +370,6 @@ const remainingGroups = [
 remainingGroups.forEach((tasks) => {
   demoGrid.appendChild(renderContextFamilyGroup(tasks, remainingTaskIndex));
   remainingTaskIndex += tasks.length;
-});
-
-configuredTasks.forEach((task) => {
-  const card = document.createElement("article");
-  card.className = "configured-card";
-  card.innerHTML = `
-    <span>${task.family}</span>
-    <h4>${task.title}</h4>
-    <ul>${task.configs.map((config) => `<li>${config}</li>`).join("")}</ul>
-    <p>${task.note}</p>`;
-  configuredGrid.appendChild(card);
 });
 
 function formatClipDuration(seconds) {
