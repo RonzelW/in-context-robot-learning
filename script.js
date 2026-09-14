@@ -402,7 +402,8 @@ function setupDurationBadge(video) {
 
   function updateBadge() {
     const playback = (video.dataset.playback || "Real time").replace(/\s+robot run$/i, "");
-    const duration = Number.isFinite(video.duration) && video.duration > 0
+    const showDuration = !stage.classList.contains("comparison-stage");
+    const duration = showDuration && Number.isFinite(video.duration) && video.duration > 0
       ? ` · ${formatClipDuration(video.duration)}`
       : "";
     badge.textContent = `${playback}${duration}`;
