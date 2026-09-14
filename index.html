@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Project page for In-Context Robot Learning with General Agents and GPT-Policy."
+    />
+    <meta name="theme-color" content="#f7f8fa" />
+    <title>In-Context Robot Learning with General Agents</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="entry" id="entry" aria-hidden="true">
+      <div class="entry-mark">
+        <div class="entry-cube" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="entry-wordmark"><b>GPT</b><span>POLICY</span></div>
+      </div>
+      <p>MOVE OR SCROLL TO ENTER</p>
+    </div>
+
+    <header class="site-header" id="top">
+      <a class="brand" href="#top" aria-label="GPT-Policy home">
+        <span class="brand-icon">GP</span>
+        <span>GPT-Policy</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#context">Context</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#discussion">Discussion</a>
+      </nav>
+      <a class="header-paper" href="paper.pdf">Paper</a>
+    </header>
+
+    <main>
+      <section class="hero shell">
+        <div class="eyebrow"><span></span> ICLR 2027 submission</div>
+        <h1>In-Context Robot Learning<br />with General Agents</h1>
+        <p class="authors">Anonymous authors</p>
+        <p class="hero-lead">
+          Can a fixed, general-purpose vision-language model learn a new robotic task from a
+          small test-time context - then turn that context into executable, verifiable behavior?
+        </p>
+        <div class="hero-actions">
+          <a class="button dark" href="paper.pdf">Paper <span aria-hidden="true">&#8599;</span></a>
+          <a class="button" href="https://www.overleaf.com/project/6aa022fe56f647092f7070de">Overleaf</a>
+          <a class="button" id="repo-link" href="https://github.com/RonzelW/in-context-robot-learning">Project source</a>
+        </div>
+
+        <div class="hero-figure">
+          <div class="frame-grid">
+            <figure>
+              <img src="assets/demo.png" alt="Human demonstration of the task" />
+              <figcaption><span>01</span> Demonstration</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/occluded.png" alt="Target plate occluded by a towel" />
+              <figcaption><span>02</span> Occluded target</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/language-detour.png" alt="Language-only robot rollout" />
+              <figcaption><span>03</span> Language-only detour</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/visual-rollout.png" alt="Visual-context robot rollout" />
+              <figcaption><span>04</span> Visual-context rollout</figcaption>
+            </figure>
+          </div>
+          <p class="figure-caption">
+            <b>Figure 1.</b> Visual demonstrations can provide procedural structure that language
+            leaves unstated. Here, visual context reveals that the hidden target should be
+            uncovered before placement.
+          </p>
+        </div>
+      </section>
+
+      <div class="content-layout shell">
+        <aside class="contents" aria-label="Page contents">
+          <p>Contents</p>
+          <a href="#overview">Overview</a>
+          <a href="#context">Forms of context</a>
+          <a href="#method">GPT-Policy</a>
+          <a href="#results">Experiments</a>
+          <a href="#findings">Findings</a>
+          <a href="#discussion">Discussion</a>
+          <a href="#citation">Citation</a>
+        </aside>
+
+        <div class="article">
+          <section id="overview" class="section ruled">
+            <p class="section-kicker">Overview</p>
+            <h2>Robotic adaptation, without parameter updates</h2>
+            <div class="abstract-grid">
+              <h3>Abstract</h3>
+              <p>
+                Humans continually adapt to new situations, whereas a robot trained on a finite
+                set of demonstrations must face tasks and environments that training cannot
+                exhaustively cover. We ask whether a fixed commercial language or vision-language
+                model can extract new task information from a small test-time context and turn it
+                into executable, verifiable behavior from a new initial state.
+              </p>
+              <p>
+                We introduce <b>GPT-Policy</b>, a general-agent framework that accepts human videos,
+                robot demonstrations, goal images, self-interaction history, and experience of
+                environmental rules or human intent through a shared closed-loop interface. A
+                context compiler preserves task-relevant visual transitions, the VLM proposes
+                robot-tool actions, and a constrained controller checks, executes, and reports
+                each action.
+              </p>
+            </div>
+            <div class="research-question">
+              <span>Central question</span>
+              <p>
+                How much robotic in-context learning is already accessible through general VLMs
+                that were not trained as dedicated robot policies?
+              </p>
+            </div>
+          </section>
+
+          <section id="context" class="section ruled">
+            <p class="section-kicker">Context</p>
+            <h2>Five sources of task information</h2>
+            <p class="section-intro">
+              The study separates the source of information from the task used to test it. Each
+              family supplies something that the current instruction and observation may omit.
+            </p>
+            <div class="context-grid">
+              <article class="context-card blue">
+                <span class="card-number">01</span>
+                <p class="card-label">Procedure</p>
+                <h3>Human video</h3>
+                <p>Ordered visual keyframes specify how a person carries out a task, without expert robot actions.</p>
+              </article>
+              <article class="context-card violet">
+                <span class="card-number">02</span>
+                <p class="card-label">Fine contact</p>
+                <h3>Robot demonstration</h3>
+                <p>Aligned visual evidence and optional action references support contact-rich manipulation.</p>
+              </article>
+              <article class="context-card green">
+                <span class="card-number">03</span>
+                <p class="card-label">Goal state</p>
+                <h3>Target image</h3>
+                <p>A reference image gives the final arrangement and spatial relations without prescribing a sequence.</p>
+              </article>
+              <article class="context-card orange">
+                <span class="card-number">04</span>
+                <p class="card-label">Memory</p>
+                <h3>Self-interaction history</h3>
+                <p>Earlier observations, actions, failures, and outcomes remain available for exploration and recovery.</p>
+              </article>
+              <article class="context-card pink">
+                <span class="card-number">05</span>
+                <p class="card-label">Coordination</p>
+                <h3>Human interaction</h3>
+                <p>Pointing, turn history, and live feedback can change target selection and action timing online.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="method" class="section ruled">
+            <p class="section-kicker">Method</p>
+            <h2>From context to constrained action</h2>
+            <p class="section-intro">
+              GPT-Policy places a fixed general VLM directly in a closed loop with robot tools.
+              The model parameters stay unchanged; only the task context and interaction history evolve.
+            </p>
+            <figure class="method-figure">
+              <a href="assets/method-overview.png" aria-label="Open method figure at full size">
+                <img src="assets/method-overview.png" alt="Overview of the GPT-Policy context-to-action framework" />
+              </a>
+              <figcaption>
+                <b>Figure 2.</b> Task instruction, current state, references, and interaction
+                history are assembled with shared constraints and tool schemas. The fixed VLM
+                selects a request; constrained robot tools validate and execute it before the next decision.
+              </figcaption>
+            </figure>
+            <div class="pipeline" aria-label="GPT-Policy pipeline">
+              <article><span>1</span><h3>Construct context</h3><p>Combine task references, current views, state, and retained interaction history.</p></article>
+              <article><span>2</span><h3>Assemble input</h3><p>Interleave text and images with stable instructions, constraints, and tool schemas.</p></article>
+              <article><span>3</span><h3>Select action</h3><p>A fixed general VLM chooses one structured robot-tool request.</p></article>
+              <article><span>4</span><h3>Validate and execute</h3><p>Controllers check the motion, execute it, and return fresh observations and feedback.</p></article>
+            </div>
+          </section>
+
+          <section id="results" class="section ruled">
+            <p class="section-kicker">Experiments</p>
+            <h2>One interface, different kinds of adaptation</h2>
+            <div class="metric-row">
+              <div><strong data-count="5">5</strong><span>context families</span></div>
+              <div><strong data-count="3">3</strong><span>trials per condition</span></div>
+              <div><strong data-count="3">3</strong><span>reported metrics</span></div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr><th>Context condition</th><th>Task</th><th>Success</th><th>Decisions</th><th>Time</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Without human video</td><td>Pick Red Towel</td><td>0 / 3</td><td>96.3</td><td>24.6 min</td></tr>
+                  <tr class="highlight"><td>Human video</td><td>Pick Red Towel</td><td>2 / 3</td><td>76.7</td><td>18.9 min</td></tr>
+                  <tr><td>Without human video</td><td>Remove Glue Cap</td><td>3 / 3</td><td>49.3</td><td>12.2 min</td></tr>
+                  <tr class="highlight"><td>Human video</td><td>Remove Glue Cap</td><td>3 / 3</td><td>65.7</td><td>16.9 min</td></tr>
+                  <tr><td>Target image</td><td>Arrange T Shape</td><td>3 / 3</td><td>59.3</td><td>13.3 min</td></tr>
+                  <tr><td>Target image</td><td>Arrange Fruit</td><td>3 / 3</td><td>49.0</td><td>12.4 min</td></tr>
+                  <tr><td>Self history</td><td>Lemon To Pink Plate</td><td>3 / 3</td><td>35.0</td><td>8.1 min</td></tr>
+                  <tr><td>Self history</td><td>Movable Exploration</td><td>3 / 3</td><td>40.33</td><td>25.53 min</td></tr>
+                  <tr><td>Human-robot interaction</td><td>Tic-Tac-Toe</td><td>3 / 3</td><td>69.7</td><td>13.6 min</td></tr>
+                  <tr><td>Human-robot interaction</td><td>Pointed Fruit Pickup</td><td>3 / 3</td><td>67.3</td><td>15.0 min</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-note">
+              Reported values reproduce Table 1 of the current manuscript. Robot visual demonstration
+              rows remain unreported in the submitted draft and are therefore not invented here.
+            </p>
+          </section>
+
+          <section id="findings" class="section ruled">
+            <p class="section-kicker">What the current evidence shows</p>
+            <h2>Context helps at different layers</h2>
+            <div class="finding-list">
+              <article data-index="01">
+                <span>Finding 01</span>
+                <h3>Context supplies missing task information.</h3>
+                <p>Goal images specify an outcome, demonstrations reveal an operation, and history preserves facts no longer visible.</p>
+              </article>
+              <article data-index="02">
+                <span>Finding 02</span>
+                <h3>Interpretation and execution are separate problems.</h3>
+                <p>Correct task reasoning can coexist with failed contact, calibration, tracking, or outcome verification.</p>
+              </article>
+              <article data-index="03">
+                <span>Finding 03</span>
+                <h3>Adaptation is behavioral, not parametric.</h3>
+                <p>The general agent uses new evidence from a fresh initial state while its parameters remain fixed throughout the task.</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="discussion" class="section ruled split-section">
+            <div>
+              <p class="section-kicker">Discussion</p>
+              <h2>A promising interface, with a clear boundary</h2>
+            </div>
+            <div class="discussion-copy">
+              <p>
+                The recorded behaviors illustrate goal grounding, changes in operation order, and
+                online coordination. They also expose a persistent gap between plausible task
+                reasoning and verified physical execution.
+              </p>
+              <p>
+                The current evidence comes from small run series, incomplete baselines, and
+                controlled ablations. It does not establish safe autonomous deployment. Calibration,
+                execution guards, independent monitoring, and timely human intervention remain necessary.
+              </p>
+            </div>
+          </section>
+
+          <section id="citation" class="section ruled citation-section">
+            <p class="section-kicker">Citation</p>
+            <h2>Cite the anonymous submission</h2>
+            <div class="code-block">
+              <button id="copy-citation" type="button">Copy citation</button>
+              <pre id="bibtex">@article{anonymous2027incontext,
+  title   = {In-Context Robot Learning with General Agents},
+  author  = {Anonymous Authors},
+  year    = {2027},
+  journal = {ICLR submission}
+}</pre>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="shell footer-inner">
+        <a class="brand" href="#top"><span class="brand-icon">GP</span><span>GPT-Policy</span></a>
+        <p>In-context learning for general robotic agents.</p>
+        <div><a href="paper.pdf">Paper</a><a href="https://www.overleaf.com/project/6aa022fe56f647092f7070de">Overleaf</a><a href="#top">Back to top</a></div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
