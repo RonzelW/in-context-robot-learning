@@ -104,7 +104,7 @@ h1 span { display: block; white-space: nowrap; }
 .ruled { border-top: 1px solid var(--line); }
 .section-kicker { margin: 0 0 18px; color: var(--blue); }
 .section h2 { max-width: none; margin: 0; font-size: clamp(13px, 3.2vw, 42px); font-size: clamp(12px, 4.2cqi, 42px); font-weight: 630; line-height: 1.06; letter-spacing: -.045em; white-space: nowrap; }
-.section-intro { max-width: 720px; margin: 25px 0 0; color: #5b616c; font-size: 16px; line-height: 1.65; }
+.section-intro { width: 100%; max-width: none; margin: 25px 0 0; color: #5b616c; font-size: 16px; line-height: 1.65; }
 .abstract-grid { display: grid; grid-template-columns: 120px 1fr; column-gap: 36px; row-gap: 18px; margin-top: 48px; }
 .abstract-grid h3 { grid-row: span 2; margin: 3px 0 0; font: 700 11px ui-monospace, monospace; letter-spacing: .13em; text-transform: uppercase; }
 .abstract-grid p { max-width: 760px; margin: 0; color: #454b55; font-size: 16px; line-height: 1.72; }
