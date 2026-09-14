@@ -45,8 +45,8 @@ const demoTasks = [
       duration: "Real time · 23.8 s"
     },
     configs: [
-      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "2 / 3", decisions: "76.7", time: "18.9 min", src: "assets/videos/towel-with-demo.mp4", trial: "Experiment 1 · success", view: "Head view", usesReference: true },
-      { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "0 / 3", decisions: "96.3", time: "24.6 min", src: "assets/videos/towel-no-demo.mp4", trial: "Experiment 1 · give up", view: "Head view", usesReference: false }
+      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "2 / 3", decisions: "76.7", time: "18.9 min", src: "assets/videos/towel-with-demo.mp4", poster: "assets/images/towel-with-human-poster.jpg", trial: "Experiment 1 · success", view: "Head view", usesReference: true },
+      { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "0 / 3", decisions: "96.3", time: "24.6 min", src: "assets/videos/towel-no-demo.mp4", poster: "assets/images/towel-without-human-poster.jpg", trial: "Experiment 1 · give up", view: "Head view", usesReference: false }
     ]
   },
   {
@@ -61,8 +61,8 @@ const demoTasks = [
       duration: "Real time · 12.0 s"
     },
     configs: [
-      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "3 / 3", decisions: "65.7", time: "16.9 min", src: "assets/videos/glue-with-demo.mp4", trial: "Experiment 2 · success", view: "Head view", usesReference: true },
-      { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "3 / 3", decisions: "49.3", time: "12.2 min", src: "assets/videos/glue-no-demo.mp4", trial: "Experiment 3 · success", view: "Head view", usesReference: false }
+      { label: "With human video", model: "GPT-6 Astra", context: "Human demonstration", success: "3 / 3", decisions: "65.7", time: "16.9 min", src: "assets/videos/glue-with-demo.mp4", poster: "assets/images/glue-with-human-poster.jpg", trial: "Experiment 2 · success", view: "Head view", usesReference: true },
+      { label: "Without video", model: "GPT-6", context: "No human demonstration", success: "3 / 3", decisions: "49.3", time: "12.2 min", src: "assets/videos/glue-no-demo.mp4", poster: "assets/images/glue-without-human-poster.jpg", trial: "Experiment 3 · success", view: "Head view", usesReference: false }
     ]
   },
   {
@@ -132,6 +132,55 @@ function statusClass(success) {
   return "high";
 }
 
+function renderHumanVideoTask(task, taskIndex) {
+  const card = document.createElement("article");
+  card.className = "human-demo-task";
+  card.dataset.family = task.family;
+
+  const resultPanels = task.configs.map((config, index) => `
+    <article class="human-video-panel result-panel">
+      <header><span>0${index + 2} · Robot rollout</span><h4>${config.label}</h4></header>
+      <div class="human-video-stage">
+        <video controls muted playsinline preload="metadata" poster="${config.poster}" src="${config.src}?v=20260914-head"></video>
+        <div class="video-overlay"><span>${config.speed || "20× robot run"}</span><span>${config.view}</span></div>
+      </div>
+      <dl class="human-panel-meta">
+        <div><dt>Model</dt><dd>${config.model}</dd></div>
+        <div><dt>Success</dt><dd class="success-value ${statusClass(config.success)}">${config.success}</dd></div>
+        <div><dt>Mean decisions</dt><dd>${config.decisions}</dd></div>
+        <div><dt>Mean time</dt><dd>${config.time}</dd></div>
+        <div class="wide"><dt>Shown run</dt><dd>${config.trial}</dd></div>
+      </dl>
+    </article>`).join("");
+
+  card.innerHTML = `
+    <header class="human-demo-task-head">
+      <div><span class="demo-index">${String(taskIndex + 1).padStart(2, "0")}</span><span class="demo-family">${task.family}</span></div>
+      <h3>${task.title}</h3>
+      <p>${task.prompt}</p>
+    </header>
+    <div class="human-video-strip" aria-label="${task.title}: demonstration and conditioning comparison">
+      <article class="human-video-panel reference-panel">
+        <header><span>01 · Conditioning input</span><h4>Human demonstration</h4></header>
+        <div class="human-video-stage">
+          <video controls muted playsinline preload="metadata" poster="${task.reference.poster}" src="${task.reference.src}"></video>
+          <div class="video-overlay"><span>${task.reference.duration}</span><span>First-person view</span></div>
+        </div>
+        <dl class="human-panel-meta reference-meta">
+          <div><dt>Role</dt><dd>Conditioning input</dd></div>
+          <div><dt>Playback</dt><dd>Real time</dd></div>
+          <div class="wide"><dt>Source</dt><dd><code>${task.reference.source}</code></dd></div>
+        </dl>
+      </article>
+      ${resultPanels}
+    </div>`;
+
+  card.querySelectorAll("video").forEach((video) => {
+    video.addEventListener("error", () => video.closest(".human-video-stage").classList.add("video-load-failed"));
+  });
+  return card;
+}
+
 function renderDemoCard(task, taskIndex) {
   const card = document.createElement("article");
   card.className = "demo-card";
@@ -140,16 +189,6 @@ function renderDemoCard(task, taskIndex) {
     <button type="button" role="tab" aria-selected="${index === 0}" tabindex="${index === 0 ? 0 : -1}" data-config="${index}">
       ${config.label}
     </button>`).join("");
-  const reference = task.reference ? `
-    <details class="reference-demo">
-      <summary><span>Conditioning clip</span><b>${task.reference.label}</b></summary>
-      <div class="reference-video-wrap">
-        <video controls muted playsinline preload="metadata" poster="${task.reference.poster}" src="${task.reference.src}"></video>
-        <span>${task.reference.duration}</span>
-      </div>
-      <p class="reference-source"><span>Source</span><code>${task.reference.source}</code></p>
-    </details>` : "";
-
   card.innerHTML = `
     <header class="demo-card-head">
       <div><span class="demo-index">${String(taskIndex + 1).padStart(2, "0")}</span><span class="demo-family">${task.family}</span></div>
@@ -169,12 +208,10 @@ function renderDemoCard(task, taskIndex) {
       <div><span>Mean decisions</span><strong data-field="decisions"></strong></div>
       <div><span>Mean time</span><strong data-field="time"></strong></div>
       <div><span>Shown run</span><strong data-field="trial"></strong></div>
-    </div>
-    ${reference}`;
+    </div>`;
 
   const player = card.querySelector(".result-video");
   const buttons = [...card.querySelectorAll("[data-config]")];
-  const referenceBlock = card.querySelector(".reference-demo");
 
   function selectConfig(index) {
     const config = task.configs[index];
@@ -193,7 +230,6 @@ function renderDemoCard(task, taskIndex) {
     card.querySelector('[data-field="trial"]').textContent = config.trial;
     card.querySelector(".speed-badge").textContent = config.speed || "20× robot run";
     card.querySelector(".view-badge").textContent = config.view;
-    if (referenceBlock) referenceBlock.hidden = !config.usesReference;
     buttons.forEach((button, buttonIndex) => {
       const selected = buttonIndex === index;
       button.setAttribute("aria-selected", String(selected));
@@ -219,7 +255,12 @@ function renderDemoCard(task, taskIndex) {
   return card;
 }
 
-demoTasks.forEach((task, index) => demoGrid.appendChild(renderDemoCard(task, index)));
+demoTasks.forEach((task, index) => {
+  const card = task.family === "Human video"
+    ? renderHumanVideoTask(task, index)
+    : renderDemoCard(task, index);
+  demoGrid.appendChild(card);
+});
 
 configuredTasks.forEach((task) => {
   const card = document.createElement("article");
@@ -280,7 +321,7 @@ const kimiComparisonTasks = {
     gpt: {
       batch: "20260912-081820 · success",
       time: "208.2 s",
-      instruction: "把水果拿出盘子",
+      instruction: "Remove the fruit from the plate",
       src: "assets/videos/gpt6-remove-fruit-head.mp4"
     },
     runs: [
@@ -289,19 +330,19 @@ const kimiComparisonTasks = {
         label: "04:26 · prompt mismatch",
         batch: "20260913-042615 · interrupted",
         time: "801.7 s",
-        instruction: "把水果拿出盘子",
+        instruction: "Remove the fruit from the plate",
         outcome: "Interrupted → failed",
         status: "Failed",
         statusClass: "result-failure",
         src: "assets/videos/kimi-remove-inconsistent-head.mp4",
-        note: "Known input inconsistency: the executed instruction is ‘把水果拿出盘子’, but the logged content says ‘拿起水果’."
+        note: "Known input inconsistency: the executed instruction was ‘Remove the fruit from the plate’, while the logged content said ‘Pick up the fruit’."
       },
       {
         key: "remove-consistent",
         label: "15:35 · matched prompt",
         batch: "20260913-153501 · interrupted",
         time: "170.5 s",
-        instruction: "把水果从盘子拿出来",
+        instruction: "Remove the fruit from the plate",
         outcome: "Interrupted → failed",
         status: "Failed",
         statusClass: "result-failure",
@@ -315,7 +356,7 @@ const kimiComparisonTasks = {
     gpt: {
       batch: "20260912-080526 · success",
       time: "253.7 s",
-      instruction: "把水果拿到盘子内",
+      instruction: "Put the fruit on the plate",
       src: "assets/videos/gpt6-place-fruit-head.mp4"
     },
     runs: [
@@ -324,7 +365,7 @@ const kimiComparisonTasks = {
         label: "04:44 · give up",
         batch: "20260913-044453 · give up",
         time: "3454.3 s",
-        instruction: "拿起水果放进盘子",
+        instruction: "Pick up the fruit and place it on the plate",
         outcome: "Model gave up → failed",
         status: "Failed",
         statusClass: "result-failure",
@@ -338,7 +379,7 @@ const kimiComparisonTasks = {
     gpt: {
       batch: "20260912-095109 · success",
       time: "40.6 s",
-      instruction: "双臂抬起",
+      instruction: "Raise both arms",
       src: "assets/videos/gpt6-raise-arms-head.mp4"
     },
     runs: [
@@ -347,7 +388,7 @@ const kimiComparisonTasks = {
         label: "15:27 · success",
         batch: "20260913-152700 · success",
         time: "40.4 s",
-        instruction: "双臂抬起",
+        instruction: "Raise both arms",
         outcome: "Task completed",
         status: "Success",
         statusClass: "result-success",
