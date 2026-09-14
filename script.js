@@ -370,9 +370,11 @@ const comparisonButtons = [...document.querySelectorAll("[data-claude-batch]")];
 
 function selectClaudeComparison(batchKey) {
   const run = claudeComparisonRuns[batchKey];
+  const wasPlaying = !comparisonVideo.paused;
   comparisonVideo.pause();
   comparisonVideo.src = `${run.src}?v=20260914-compare`;
   comparisonVideo.load();
+  if (wasPlaying) comparisonVideo.play().catch(() => {});
   document.querySelector('[data-compare-field="batch"]').textContent = run.batch;
   document.querySelector('[data-compare-field="decisions"]').textContent = run.decisions;
   document.querySelector('[data-compare-field="time"]').textContent = run.time;
@@ -488,10 +490,12 @@ function setKimiField(selector, value) {
 }
 
 function loadKimiComparisonVideo(video, error, src) {
+  const wasPlaying = !video.paused;
   video.pause();
   error.hidden = true;
   video.src = `${src}?v=20260914-kimi-compare`;
   video.load();
+  if (wasPlaying) video.play().catch(() => {});
 }
 
 function selectKimiRun(taskKey, runKey) {
@@ -541,12 +545,25 @@ kimiVideo.addEventListener("error", () => { kimiVideoError.hidden = false; });
 kimiVideo.addEventListener("loadeddata", () => { kimiVideoError.hidden = true; });
 selectKimiTask("remove");
 
-document.querySelectorAll("video").forEach((video) => {
-  video.addEventListener("play", () => {
-    document.querySelectorAll("video").forEach((other) => {
-      if (other !== video) other.pause();
+const autoplayObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entryItem) => {
+      const video = entryItem.target;
+      if (entryItem.isIntersecting && entryItem.intersectionRatio >= .35) {
+        video.muted = true;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
     });
-  });
+  },
+  { rootMargin: "0px 0px -5%", threshold: [0, .35, .75] }
+);
+
+document.querySelectorAll("video").forEach((video) => {
+  video.muted = true;
+  video.loop = true;
+  autoplayObserver.observe(video);
 });
 
 const copyButton = document.querySelector("#copy-citation");
