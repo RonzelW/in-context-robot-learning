@@ -219,6 +219,48 @@ configuredTasks.forEach((task) => {
   configuredGrid.appendChild(card);
 });
 
+const claudeComparisonRuns = {
+  paper: {
+    batch: "paper · r01",
+    decisions: "35",
+    time: "795.5 s",
+    outcome: "Left arm can1 tracking error",
+    src: "assets/videos/claude-towel-paper-head.mp4"
+  },
+  fixed: {
+    batch: "towel-fable51-fixed · r01",
+    decisions: "3",
+    time: "76.3 s",
+    outcome: "Right arm can3 tracking error",
+    src: "assets/videos/claude-towel-fixed-head.mp4"
+  }
+};
+
+const comparisonVideo = document.querySelector("#claude-comparison-video");
+const comparisonError = document.querySelector("#claude-comparison-error");
+const comparisonButtons = [...document.querySelectorAll("[data-claude-batch]")];
+
+function selectClaudeComparison(batchKey) {
+  const run = claudeComparisonRuns[batchKey];
+  comparisonVideo.pause();
+  comparisonVideo.src = `${run.src}?v=20260914-compare`;
+  comparisonVideo.load();
+  document.querySelector('[data-compare-field="batch"]').textContent = run.batch;
+  document.querySelector('[data-compare-field="decisions"]').textContent = run.decisions;
+  document.querySelector('[data-compare-field="time"]').textContent = run.time;
+  document.querySelector('[data-compare-field="outcome"]').textContent = run.outcome;
+  comparisonButtons.forEach((button) => {
+    button.setAttribute("aria-selected", String(button.dataset.claudeBatch === batchKey));
+  });
+}
+
+comparisonButtons.forEach((button) => {
+  button.addEventListener("click", () => selectClaudeComparison(button.dataset.claudeBatch));
+});
+comparisonVideo.addEventListener("error", () => { comparisonError.hidden = false; });
+comparisonVideo.addEventListener("loadeddata", () => { comparisonError.hidden = true; });
+selectClaudeComparison("paper");
+
 document.querySelectorAll("video").forEach((video) => {
   video.addEventListener("play", () => {
     document.querySelectorAll("video").forEach((other) => {

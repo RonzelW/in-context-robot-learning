@@ -4,6 +4,8 @@ Static project page for In-Context Robot Learning with General Agents. The desig
 
 The interactive demo gallery groups recordings by task and lets visitors switch between model/context configurations. One representative trial is shown per condition; long robot runs are encoded at 20x or 30x speed for web delivery, as labeled on each video.
 
+A matched-condition comparison pairs the GPT-6 Astra red-towel run with two Claude Fable 5.1 batches using the same instruction, eight-frame human-video context, and head-camera view.
+
 ## Preview
 
 Open `index.html` directly, or serve the folder with any static web server.

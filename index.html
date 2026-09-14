@@ -236,6 +236,62 @@
             </div>
             <div class="demo-grid" id="demo-grid"></div>
 
+            <section class="model-comparison" aria-labelledby="model-comparison-title">
+              <div class="comparison-heading">
+                <div>
+                  <p class="section-kicker">Controlled comparison</p>
+                  <h3 id="model-comparison-title">Same task and context, different agents</h3>
+                </div>
+                <p>
+                  Both agents receive the same red-towel instruction and the same eight frames
+                  extracted from the human demonstration. Compare one GPT-6 run with two Claude
+                  Fable 5.1 evaluation batches from the head camera.
+                </p>
+              </div>
+              <div class="comparison-context">
+                <span>Task</span><b>Pick up the red towel with the right hand</b>
+                <span>Context</span><b>Human video · 8 extracted frames</b>
+                <span>View</span><b>Head camera</b>
+              </div>
+              <div class="comparison-tabs" role="tablist" aria-label="Claude Fable 5.1 evaluation batches">
+                <button type="button" role="tab" aria-selected="true" data-claude-batch="paper">paper · r01</button>
+                <button type="button" role="tab" aria-selected="false" data-claude-batch="fixed">towel-fable51-fixed · r01</button>
+              </div>
+              <div class="comparison-grid">
+                <article class="comparison-card">
+                  <header><span>GPT-6 Astra</span><strong class="result-success">Success</strong></header>
+                  <div class="comparison-stage">
+                    <video controls muted playsinline preload="metadata" src="assets/videos/towel-with-demo.mp4?v=20260914-compare"></video>
+                    <div class="video-overlay"><span>20&times; robot run</span><span>Head view</span></div>
+                  </div>
+                  <dl>
+                    <div><dt>Run</dt><dd>Human-video · Experiment 1</dd></div>
+                    <div><dt>Decisions</dt><dd>61</dd></div>
+                    <div><dt>Elapsed</dt><dd>950.7 s</dd></div>
+                    <div><dt>Outcome</dt><dd>Task completed</dd></div>
+                  </dl>
+                </article>
+                <article class="comparison-card claude-comparison-card">
+                  <header><span>Claude Fable 5.1</span><strong class="result-failure">Failed</strong></header>
+                  <div class="comparison-stage">
+                    <video id="claude-comparison-video" controls muted playsinline preload="metadata"></video>
+                    <div class="video-overlay"><span>20&times; robot run</span><span>Head view</span></div>
+                    <p class="video-error" id="claude-comparison-error" hidden>Video could not be loaded.</p>
+                  </div>
+                  <dl aria-live="polite">
+                    <div><dt>Batch</dt><dd data-compare-field="batch"></dd></div>
+                    <div><dt>Decisions</dt><dd data-compare-field="decisions"></dd></div>
+                    <div><dt>Elapsed</dt><dd data-compare-field="time"></dd></div>
+                    <div><dt>Outcome</dt><dd data-compare-field="outcome"></dd></div>
+                  </dl>
+                </article>
+              </div>
+              <p class="comparison-note">
+                This is a qualitative, matched-condition comparison of individual runs, not an
+                aggregate model ranking. Both Claude failures were triggered by arm tracking errors.
+              </p>
+            </section>
+
             <div class="configured-only">
               <div class="configured-heading">
                 <div>
@@ -321,6 +377,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=20260914-head"></script>
+    <script src="script.js?v=20260914-compare"></script>
   </body>
 </html>
