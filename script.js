@@ -416,6 +416,7 @@ const demoTasks = [
     title: "Find the plate and place the lemon",
     prompt: "Explore the scene, locate the pink plate, and place the lemon onto it.",
     historyTitle: "Self-interaction history",
+    historyTimeline: [0, 3.2, 5.2, 12.4, 13.6, 16.9, 19.8],
     historySteps: [
       {
         title: "Explore and localize",
@@ -503,6 +504,7 @@ const demoTasks = [
     title: "Pick the pointed fruit",
     prompt: "Wait for a human gesture, then pick the indicated fruit and place it on the plate.",
     historyTitle: "Online interaction context",
+    historyTimeline: [0, 1.9, 4.2, 7.4, 11.5, 18.3, 20.8, 22.7, 26.7],
     historySteps: [
       {
         title: "Wait for the first gesture",
