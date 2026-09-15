@@ -463,6 +463,7 @@ const demoTasks = [
     title: "Play tic-tac-toe",
     prompt: "Track the live board and human moves, obey turn-taking, and choose a legal winning or blocking move.",
     historyTitle: "Online interaction context",
+    historyTimeline: [0, 13.0, 15.0, 26.2, 29.5, 38.0, 40.8],
     historySteps: [
       {
         title: "Open by taking the center",
@@ -733,7 +734,7 @@ function renderContextFamilyGroup(tasks, startIndex) {
         </div>
         <ol>
           ${historySteps.map((step, index) => `
-            <li data-summary-step="${index}">
+            <li data-summary-step="${index}"${tasks[0].historyTimeline ? ` data-start="${tasks[0].historyTimeline[index]}"` : ""}>
               <span>${String(index + 1).padStart(2, "0")}</span>
               <p><strong>${step.title}</strong>${step.text}</p>
             </li>`).join("")}
@@ -803,8 +804,59 @@ function renderContextFamilyGroup(tasks, startIndex) {
     selectConfig(0);
   });
 
+  setupHistorySummary(group);
   activateRolloutRail(group);
   return group;
+}
+
+function setupHistorySummary(group) {
+  const summary = group.querySelector(".history-summary");
+  const media = group.querySelector(".rollout-media");
+  if (!summary || !media) return;
+
+  const matchMediaHeight = () => {
+    const height = media.getBoundingClientRect().height;
+    if (height > 0) summary.style.height = `${Math.round(height)}px`;
+  };
+  window.requestAnimationFrame(matchMediaHeight);
+  if ("ResizeObserver" in window) new ResizeObserver(matchMediaHeight).observe(media);
+  else window.addEventListener("resize", matchMediaHeight, { passive: true });
+
+  const video = media.querySelector("video");
+  const list = summary.querySelector("ol");
+  const items = [...summary.querySelectorAll("[data-start]")];
+  if (!video || !list || !items.length) return;
+
+  summary.classList.add("is-synced");
+  let activeIndex = -1;
+
+  function showTimelineStep(behavior = "smooth") {
+    const currentTime = video.currentTime || 0;
+    let nextIndex = 0;
+    items.forEach((item, index) => {
+      if (currentTime >= Number(item.dataset.start)) nextIndex = index;
+    });
+    if (nextIndex === activeIndex) return;
+    activeIndex = nextIndex;
+
+    items.forEach((item, index) => {
+      const active = index === activeIndex;
+      item.classList.toggle("is-active", active);
+      item.classList.toggle("is-complete", index < activeIndex);
+      if (active) item.setAttribute("aria-current", "step");
+      else item.removeAttribute("aria-current");
+    });
+
+    const activeItem = items[activeIndex];
+    const top = activeItem.offsetTop - list.offsetTop - (list.clientHeight - activeItem.offsetHeight) / 2;
+    list.scrollTo({ top: Math.max(0, top), behavior });
+  }
+
+  video.addEventListener("timeupdate", () => showTimelineStep("smooth"));
+  video.addEventListener("seeking", () => showTimelineStep("auto"));
+  video.addEventListener("loadedmetadata", () => showTimelineStep("auto"));
+  video.addEventListener("ended", () => showTimelineStep("auto"));
+  showTimelineStep("auto");
 }
 
 demoTasks.slice(0, 4).forEach((task, index) => {
