@@ -36,11 +36,11 @@ let currentLanguage = "en";
 
 const zhTranslations = new Map([
   ["MOVE OR SCROLL TO ENTER", "移动鼠标或滚动进入"],
-  ["In-Context Robot Learning", "基于通用智能体的"],
-  ["with General Agents", "上下文机器人学习"],
+  ["In-Context Robot Learning", "基于视觉语言模型智能体的"],
+  ["with VLM Agents", "上下文机器人学习"],
   ["Anonymous authors", "匿名作者"],
-  ["Can a fixed, general-purpose vision-language model learn a new robotic task", "一个固定参数的通用视觉语言模型能否学会新的机器人任务"],
-  ["from a small test-time context - then turn that context into executable, verifiable behavior?", "并从少量测试时上下文中提取信息，将其转化为可执行、可验证的行为？"],
+  ["Can a fixed commercial LLM or VLM extract new task information at test time", "参数固定的商用 LLM 或 VLM 能否在测试时提取新的任务信息"],
+  ["and turn it into executable, verifiable behavior from a new initial state?", "并在新的初始状态下将其转化为可执行、可验证的行为？"],
   ["Paper", "论文"],
   ["Code", "代码"],
   ["Contents", "内容导航"],
@@ -51,13 +51,13 @@ const zhTranslations = new Map([
   ["Findings", "研究发现"],
   ["Discussion", "讨论"],
   ["Citation", "引用"],
-  ["Robotic adaptation, without parameter updates", "无需更新参数的机器人适应"],
+  ["Robotic in-context learning, without parameter updates", "无需更新参数的机器人上下文学习"],
   ["Abstract", "摘要"],
-  ["Humans continually adapt to new situations, whereas a robot trained on a finite set of demonstrations must face tasks and environments that training cannot exhaustively cover. We ask whether a fixed commercial language or vision-language model can extract new task information from a small test-time context and turn it into executable, verifiable behavior from a new initial state.", "人类能够持续适应新情境，而仅通过有限示范训练的机器人必须面对训练数据无法穷尽的任务与环境。我们探究：一个参数固定的商用语言模型或视觉语言模型，能否从少量测试时上下文中提取新的任务信息，并在新的初始状态下将其转化为可执行、可验证的行为。"],
+  ["Humans continually adapt to new situations, whereas a robot trained on a finite set of demonstrations must face tasks and environments that training cannot exhaustively cover. We ask whether a fixed commercial language or vision-language model (LLM/VLM) can extract new task information from a small test-time context and turn it into executable, verifiable behavior from a new initial state. We define robotic in-context learning as adaptation during the target task that uses demonstrations, examples, or interaction feedback while forbidding gradient updates and persistent task-specific parameter changes.", "人类能够持续适应新情境，而仅通过有限示范训练的机器人必须面对训练数据无法穷尽的任务与环境。我们探究：参数固定的商用语言模型或视觉语言模型（LLM/VLM），能否从少量测试时上下文中提取新的任务信息，并在新的初始状态下将其转化为可执行、可验证的行为。我们将机器人上下文学习定义为：在目标任务执行期间利用示范、样例或交互反馈进行适应，同时禁止梯度更新以及持久性的任务特定参数变更。"],
   ["We introduce", "我们提出"],
-  [", a general-agent framework that accepts human videos, robot demonstrations, goal images, self-interaction history, and experience of environmental rules or human intent through a shared closed-loop interface. A context compiler preserves task-relevant visual transitions, the VLM proposes robot-tool actions, and a constrained controller checks, executes, and reports each action.", "：一个通用智能体框架，通过统一的闭环接口接收人类视频、机器人示范、目标图像、自身交互历史，以及有关环境规则或人类意图的经验。上下文编译器保留与任务相关的视觉变化，视觉语言模型提出机器人工具动作，受约束的控制器则检查、执行并反馈每个动作。"],
+  [", a general-agent framework that accepts human videos, robot demonstrations, goal images, self-interaction history, and experience of environmental rules or human intent through a shared closed-loop interface for manipulation and exploration. A context compiler preserves task-relevant visual transitions, the VLM proposes robot-tool actions, and a constrained controller checks, executes, and reports each action. Initial task records and case analyses illustrate goal specification, changes in operation order, and online coordination, while exposing a gap between task reasoning and verified physical execution. The evaluation combines task-level success and efficiency reporting with matched model comparisons and planned context ablations to test the reliability and limits of these behaviors.", "：一个面向操作与探索的通用智能体框架，通过统一闭环接口接收人类视频、机器人示范、目标图像、自身交互历史，以及有关环境规则或人类意图的经验。上下文编译器保留与任务相关的视觉变化，视觉语言模型提出机器人工具动作，受约束的控制器则检查、执行并反馈每个动作。初步任务记录和案例分析展示了目标设定、操作顺序调整与在线协作，同时揭示任务推理与经验证的物理执行之间的差距。评估结合任务级成功率和效率报告、配对模型比较以及规划中的上下文消融，以检验这些行为的可靠性与边界。"],
   ["Central question", "核心问题"],
-  ["How much robotic in-context learning is already accessible through general VLMs that were not trained as dedicated robot policies?", "未经专门机器人策略训练的通用视觉语言模型，已经具备多大程度的机器人上下文学习能力？"],
+  ["How much robotic in-context learning is already accessible through general VLMs that were not exposed as dedicated robot policies?", "并未作为专用机器人策略使用的通用视觉语言模型，已经具备多大程度的机器人上下文学习能力？"],
   ["Context", "上下文"],
   ["Five sources of task information", "五类任务信息来源"],
   ["The study separates the source of information from the task used to test it. Each family supplies something that the current instruction and observation may omit.", "本研究将信息来源与用于测试的任务区分开来。每类上下文都能补充当前指令和观测可能遗漏的信息。"],
@@ -160,7 +160,7 @@ const zhTranslations = new Map([
   ["Copy citation", "复制引用"],
   ["Copied", "已复制"],
   ["Select and copy", "请选择并复制"],
-  ["In-context learning for general robotic agents.", "面向通用机器人智能体的上下文学习。"],
+  ["In-context learning for general VLM agents.", "面向通用视觉语言模型智能体的上下文学习。"],
   ["Back to top", "返回顶部"],
   ["Show previous clips", "查看上一组视频"],
   ["Show more clips", "查看更多视频"],
@@ -360,11 +360,11 @@ function translateHistorySummaries() {
 function applyLanguage(language) {
   currentLanguage = language;
   document.documentElement.lang = language;
-  document.title = language === "zh-CN" ? "基于通用智能体的上下文机器人学习" : "In-Context Robot Learning with General Agents";
+  document.title = language === "zh-CN" ? "基于视觉语言模型智能体的上下文机器人学习" : "In-Context Robot Learning with VLM Agents";
   const description = document.querySelector('meta[name="description"]');
   description.content = language === "zh-CN"
-    ? "基于通用智能体和 GPT-Policy 的上下文机器人学习项目主页。"
-    : "Project page for In-Context Robot Learning with General Agents and GPT-Policy.";
+    ? "《基于视觉语言模型智能体的上下文机器人学习》及 GPT-Policy 项目主页。"
+    : "Project page for In-Context Robot Learning with VLM Agents and GPT-Policy.";
   translateDocumentText();
   translateDocumentAttributes();
   translateHistorySummaries();
