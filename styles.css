@@ -186,8 +186,8 @@ table { width: 100%; min-width: 700px; border-collapse: collapse; font-size: 12p
 th { padding: 13px 12px; border-bottom: 1px solid var(--ink); color: #7a808b; font: 700 9px ui-monospace, monospace; letter-spacing: .08em; text-align: left; text-transform: uppercase; }
 td { padding: 14px 12px; border-bottom: 1px solid var(--line); }
 tbody tr { transition: background 150ms ease; }
-tbody tr:hover, tbody tr.highlight:hover { background: #edf3fc; }
-tbody tr.highlight { background: #f7faff; }
+tbody tr:nth-child(even) { background: #f5f8fc; }
+tbody tr:hover { background: #eaf1fb; }
 td:nth-child(n+3) { font-family: ui-monospace, monospace; }
 .table-note { margin: 14px 0 0; color: #7b818c; font: 11px/1.55 ui-monospace, monospace; }
 .demo-section { --demo-blue: #275da8; }
