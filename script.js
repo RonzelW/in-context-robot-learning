@@ -215,6 +215,22 @@ const zhTranslations = new Map([
   ["The plate rim and center are triangulated. The arm routes around the right side, descends in two stages above the center, and opens the gripper to release the lemon.", "三角定位盘子外缘与中心。机械臂沿右侧绕行至盘心上方，分两段下降后打开夹爪释放柠檬。"],
   ["Retreat and validate", "退出并验收"],
   ["With the gripper open, the arm retreats 2–3 cm horizontally and lifts. Visible clearance from both fingers and support from the plate confirm completion before <code>done</code> is called.", "夹爪保持张开，水平退让 2–3 cm 并抬高。确认柠檬与两指均有间隙且由盘面承托后，再调用 <code>done</code>。"],
+  ["Survey and retain the basket", "巡视并记住篮子位置"],
+  ["With the yellow basket visible ahead but no confirmed bottle, the robot lowers and leans forward, then scans unexplored sectors by rotating in place. It retains the basket direction and nearby fan, cables, and furniture as landmarks instead of restarting the search.", "黄色篮子虽在前方可见，但尚未确认目标瓶。机器人降低腰部并前俯，再原地旋转扫描未观察区域；同时记住篮子方向及附近的风扇、线缆和家具，把它们作为地标，而不是重新开始搜索。"],
+  ["Verify and approach the Sprite can", "核实并接近雪碧罐"],
+  ["A green can appears on a white table. The robot confirms the Sprite branding and pull-tab rather than relying on color, then raises to table height, aligns the left arm, and drives to a comfortable grasping distance.", "白桌上出现一个绿色罐体。机器人通过雪碧品牌标识和拉环确认目标，而非仅凭颜色判断；随后抬升至桌面作业高度，对齐左臂并前进到舒适的抓取距离。"],
+  ["Test and reject the left-hand grasp", "尝试并否定左手抓取"],
+  ["The left arm approaches through checked waypoints. When a motion chunk and a vertical descent are rejected, the robot changes the command structure and waist height. It closes around the can, but a 6 cm lift leaves the can on the table, correctly rejecting the grasp.", "左臂沿分段检查的路径接近。运动片段和垂直下降先后被拒绝后，机器人调整命令结构与腰部高度。夹爪随后闭合，但抬升 6 cm 时罐体仍留在桌面，因此正确判定此次抓取失败。"],
+  ["Diagnose the gripper and switch hands", "诊断夹爪并切换手臂"],
+  ["The empty left gripper fails to reopen even in a standalone test. The robot withdraws it, verifies that the right gripper opens normally, shifts sideways, and repositions the can in front of the right arm.", "左夹爪在空载单独测试中仍无法重新张开。机器人将其撤回，确认右夹爪能够正常开合，再横向移动底盘，把雪碧罐重新置于右臂前方。"],
+  ["Grasp and verify with the right hand", "用右手抓取并验证"],
+  ["The right fingers are lowered from the can rim to its mid-upper body, then close until contact. A 6 cm lift shows the base clearing the table and the can remaining fixed in the wrist view, confirming a secure grasp before the arm retracts.", "右侧夹指从罐口高度下降至罐身中上部，随后闭合至接触。抬升 6 cm 后，罐底明显离开桌面，且罐体在腕部视角中与夹爪保持相对固定，由此确认抓牢，再将手臂收回。"],
+  ["Return using remembered landmarks", "依据已记住的地标返回"],
+  ["With the can held close, the robot backs away from the table, turns toward the stored basket direction, reacquires the yellow basket, and sidesteps away from a person and chair before approaching with a lowered, forward-pitched waist.", "机器人将罐体收拢后退出桌边，转向先前记住的篮子方向并重新找到黄色篮子；随后横移以远离人员和椅子，再降低腰部并前俯接近篮子。"],
+  ["Use the open space in the basket", "利用篮内空位"],
+  ["The basket center and left side are occupied, so the robot selects a clear region along the right inner wall and moves the can over the near rim. When a direct downward path fails kinematic checks, it lowers and pitches the waist further instead of replaying the rejected motion.", "篮子中央和左侧已有物品，因此机器人选择右侧内壁旁的空位，并让罐体越过近侧篮沿。直接下放未通过运动学检查后，机器人进一步降低腰部并前俯，没有重复被拒绝的轨迹。"],
+  ["Release only after support", "确认支撑后再释放"],
+  ["After the can enters the basket, its upward shift relative to the fingers indicates bottom support. The robot stops lowering, opens the right gripper, and confirms that the can remains tilted but stable among the basket contents instead of following the hand.", "罐体进入篮内后，相对夹指向上移动，表明罐底已获得支撑。机器人停止下压并打开右夹爪，确认罐体倾斜但稳定地留在篮内物品之间，没有随手移动。"],
   ["Open by taking the center", "首步占据中心"],
   ["With Green moving first, the top and wrist views confirm an empty board and a clear workspace. A 3 cm wrist lift creates parallax, and <code>locate_point</code> triangulates the first green piece. After a joint-limit detour and a failed grasp that shifts the piece about 16 mm, the robot relocalizes, regrips, verifies a 3 cm lift, routes around the center post, and releases in the center cell.", "绿方先手。顶部与腕部视角确认棋盘为空且人手已离开。腕部抬升 3 cm 建立视差，并用 <code>locate_point</code> 三角定位首枚绿子。经历一次关节限位绕行和一次使棋子偏移约 16 mm 的失败抓取后，机器人重新定位并抓取，以抬升 3 cm 验证抓牢，绕过中央支杆后将棋子释放到中心格。"],
   ["Wait for Blue’s first move", "等待蓝方首步"],
@@ -455,6 +471,42 @@ const demoTasks = [
     family: "Self history",
     title: "Movable exploration",
     prompt: "Search for the Sprite bottle by changing viewpoint or moving safe obstacles, then place it in the yellow basket.",
+    historyTitle: "Self-interaction history",
+    historyTimeline: [0, 3.8, 7.4, 16.8, 20.5, 26.0, 34.5, 42.2],
+    historySteps: [
+      {
+        title: "Survey and retain the basket",
+        text: "With the yellow basket visible ahead but no confirmed bottle, the robot lowers and leans forward, then scans unexplored sectors by rotating in place. It retains the basket direction and nearby fan, cables, and furniture as landmarks instead of restarting the search."
+      },
+      {
+        title: "Verify and approach the Sprite can",
+        text: "A green can appears on a white table. The robot confirms the Sprite branding and pull-tab rather than relying on color, then raises to table height, aligns the left arm, and drives to a comfortable grasping distance."
+      },
+      {
+        title: "Test and reject the left-hand grasp",
+        text: "The left arm approaches through checked waypoints. When a motion chunk and a vertical descent are rejected, the robot changes the command structure and waist height. It closes around the can, but a 6 cm lift leaves the can on the table, correctly rejecting the grasp."
+      },
+      {
+        title: "Diagnose the gripper and switch hands",
+        text: "The empty left gripper fails to reopen even in a standalone test. The robot withdraws it, verifies that the right gripper opens normally, shifts sideways, and repositions the can in front of the right arm."
+      },
+      {
+        title: "Grasp and verify with the right hand",
+        text: "The right fingers are lowered from the can rim to its mid-upper body, then close until contact. A 6 cm lift shows the base clearing the table and the can remaining fixed in the wrist view, confirming a secure grasp before the arm retracts."
+      },
+      {
+        title: "Return using remembered landmarks",
+        text: "With the can held close, the robot backs away from the table, turns toward the stored basket direction, reacquires the yellow basket, and sidesteps away from a person and chair before approaching with a lowered, forward-pitched waist."
+      },
+      {
+        title: "Use the open space in the basket",
+        text: "The basket center and left side are occupied, so the robot selects a clear region along the right inner wall and moves the can over the near rim. When a direct downward path fails kinematic checks, it lowers and pitches the waist further instead of replaying the rejected motion."
+      },
+      {
+        title: "Release only after support",
+        text: "After the can enters the basket, its upward shift relative to the fingers indicates bottom support. The robot stops lowering, opens the right gripper, and confirms that the can remains tilted but stable among the basket contents instead of following the hand."
+      }
+    ],
     configs: [
       { label: "GPT-6 Astra", model: "GPT-6 Astra", context: "Interaction history", success: "3 / 3", decisions: "40.33", time: "25.53 min", src: "assets/videos/mobile-gpt6.mp4", trial: "Success", view: "Head view", speed: "30× robot run" }
     ]
